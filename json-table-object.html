@@ -48,20 +48,43 @@ Custom property | Description | Default
         border-bottom: 1px var(--json-table-item-border-bottom-color, rgba(0, 0, 0, 0.12)) solid;
       }
 
+      .item.array,
+      .item.object {
+        @apply(--layout-vertical);
+      }
+
       .item:last-of-type {
         border-bottom: none;
       }
 
       .property-name {
         width: var(--json-table-list-property-name-width, 160px);
-        min-width: 160px;
+        min-width: var(--json-table-list-property-name-width, 160px);
+        color: var(--json-table-list-property-name-color, rgba(0,0,0,0.54));
         word-break: break-all;
         margin-right: 12px;
+        padding-right: 12px;
       }
 
       .property-value {
         @apply(--layout-flex);
-        word-wrap: break-word;
+        word-wrap: normal;
+        overflow: auto;
+      }
+
+      .object .property-value,
+      .array .property-value {
+        overflow: visible;
+        margin-left: var(--json-table-indent-size, 12px);
+      }
+
+      .object .property-name,
+      .array .property-name  {
+        font-weight: 500;
+      }
+
+      json-table-object,
+      json-table-array {
         overflow: auto;
       }
 
@@ -70,7 +93,7 @@ Custom property | Description | Default
       }
     </style>
     <template is="dom-repeat" items="[[display]]">
-      <div class="item">
+      <div class$="item [[_computeItemClass(item.*)]]">
         <div class="property-name">
           [[item.key]]
           <template is="dom-if" if="[[_isEnumOrArray(item.*)]]">
@@ -87,7 +110,9 @@ Custom property | Description | Default
             </template>
           </template>
           <template is="dom-if" if="[[item.isArray]]" restamp="true">
-            <json-table-array json="[[item.value]]"  paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-array>
+            <div class="array-wrapper">
+              <json-table-array json="[[item.value]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-array>
+            </div>
           </template>
           <template is="dom-if" if="[[item.isPrimitive]]" restamp="true">
             <span class="primitive-value">[[item.value]]</span>
@@ -131,6 +156,19 @@ Custom property | Description | Default
           return this.getPropertyModel(key, json[key]);
         }, this);
         this._setDisplay(model);
+      },
+
+      _computeItemClass: function(record) {
+        if (!record || !record.base) {
+          return;
+        }
+        var item = record.base;
+        if (item.isArray || item.isEnum) {
+          return 'array';
+        }
+        if (item.isObject) {
+          return 'object';
+        }
       }
     });
   </script>
