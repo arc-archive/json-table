@@ -29,6 +29,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="../../anypoint-styles/anypoint-styles.html">
   <link rel="import" href="../json-table.html">
   <style is="custom-style" include="demo-pages-shared-styles">
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Noto', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
   .vertical-section-container {
     max-width: 900px;
   }
@@ -57,7 +69,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-dialog id="inputDialog" on-iron-overlay-closed="_dialogClosed">
           <h2>Paste JSON value</h2>
           <div>
-            <paper-textarea value="{{customJson}}"></paper-textarea>
+            <paper-textarea max-rows="5" value="{{customJson}}"></paper-textarea>
           </div>
           <div class="buttons">
             <paper-button dialog-dismiss>Cancel</paper-button>
@@ -102,7 +114,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               app.json = app.customJson;
             }
 
-            app.$$('paper-listbox').selected = '';
+            document.querySelector('paper-listbox').selected = -1;
           };
           // app.async(function() {
           //   app.getJson('./drive.json');
