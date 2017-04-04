@@ -21,6 +21,18 @@ change number of items at any time.
 ```
 <json-table json="[...]" paginate items-per-page="15"></json-table>
 ```
+## Content actions
+The element can render an actions pane above the table / list view. Action pane is to
+display content actions that is relevant in context of the content displayed
+below the buttons. It should be icon buttons list or just buttons added to this view.
+
+Buttons must have `content-action` property set to be included to this view.
+
+```
+<json-table json='{"json": "test"}'>
+  <paper-icon-button content-action title="Copy content to clipboard" icon="arc:content-copy"></paper-icon-button>
+</json-table>
+```
 
 ### Styling
 `<json-table>` provides the following custom properties and mixins for styling:
