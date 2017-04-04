@@ -22,6 +22,27 @@ the License.
    * @polymerBehavior ArcBehaviors.JsonTableBehavior
    */
   global.ArcBehaviors.JsonTableBehavior = {
+
+    properties: {
+      // In pagination, page index
+      page: {
+        type: Number,
+        value: 0
+      },
+      /**
+       * Number of items in pagination per page.
+       * Allowed values are 10, 15, 20, 25, 50 and 100.
+       */
+      itemsPerPage: {
+        type: Number,
+        value: 20
+      },
+      // If true then the pagination will be enabled for the arrays.
+      paginate: {
+        type: Boolean,
+        value: false
+      }
+    },
     /**
      * Returns true if given argument is an array
      *
@@ -124,6 +145,25 @@ the License.
         }
       }
       return true;
+    },
+    // Computes if the passed record's object is a type of array or enum.
+    _isEnumOrArray: function(record) {
+      if (!record || !record.base) {
+        return false;
+      }
+      var item = record.base;
+      return item.isArray || item.isEnum;
+    },
+    // Computes the size of item's value.
+    _computeArraySize: function(record) {
+      if (!record || !record.base) {
+        return 0;
+      }
+      var item = record.base;
+      if (item.isArray || item.isEnum) {
+        return item.value.length || 0;
+      }
+      return 0;
     }
   };
 })(window);

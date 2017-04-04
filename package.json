@@ -1,6 +1,6 @@
 {
   "name": "json-table",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "Apache-2.0 OR CC-BY-4.0",
   "description": "A table view from a JSON structure",
   "devDependencies": {
@@ -17,7 +17,7 @@
   "scripts": {
     "serve": "node_modules/.bin/polymer serve",
     "lint": "node_modules/.bin/polymer lint json-table.html",
-    "test-sauce": "exit 0; node_modules/.bin/polymer test --plugin sauce --job-name \"json-table:local-test\"",
+    "test-sauce": "node_modules/.bin/polymer test --plugin sauce --job-name \"json-table:local-test\"",
     "test": "node_modules/.bin/polymer test",
     "deps": "npm install --quiet && bower install --quiet",
     "update-deps": "npm update --quiet && bower update --quiet"

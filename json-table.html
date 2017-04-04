@@ -16,11 +16,24 @@ the License.
 <link rel="import" href="json-table-behavior.html">
 <link rel="import" href="json-table-array.html">
 <!--
-`<json-table>` A table view from a JSON structure
+`<json-table>` A table view from the JSON structure.
+
+The element will render a table and / or list view from the JSON object.
+If give JSON is am array it will display a table. For objects it will display list view.
+
+Complex object will be represented as a embedded view of the list / table inside the parent object
+representation. That may create very complex structure and lead to performance issues when computing
+data model and building the DOM. Therefore the element will only build the first level of the view.
+If the object / array contains other objects / arrays it will show only a button to display embeded
+objects. That should prohibit from freezing the UI while rendering the view.
+
+Another optimization is pagination (disabled by default). After setting the `paginate` property
+array tables will contain a pagination with `itemsPerPage` items rendered at a time. The user can
+change number of items at any time.
 
 ### Example
 ```
-<json-table></json-table>
+<json-table json="[...]" paginate items-per-page="15"></json-table>
 ```
 
 ### Styling
@@ -29,6 +42,11 @@ the License.
 Custom property | Description | Default
 ----------------|-------------|----------
 `--json-table` | Mixin applied to the element | `{}`
+`--json-table-main-array-wrapper` | Mixin applied to the top level array's table view. This element has `overflow` property set.  | `{}`
+`--json-table-item-border-bottom-color` | Color of the bottom border in the array able items or in the object list row | `rgba(0, 0, 0, 0.12)`
+`--json-table-list-property-name-width` | Width of the property name for the list view for the object display | `120px`
+`--json-table-array-header-color` | Color of the array table header labels | ``
+`--json-table-array-body-color` | Color of the array table body values | ``
 
 @group UI Elements
 @element json-table
@@ -39,13 +57,27 @@ Custom property | Description | Default
     <style>
     :host {
       display: block;
+      @apply(--json-table);
+    }
+
+    .array-wrapper {
+      @apply(--layout-horizontal);
+      overflow-y: hidden;
+      overflow-x: auto;
+      @apply(--json-table-main-array-wrapper);
+    }
+
+    json-table-array {
+      @apply(--layout-flex);
     }
     </style>
     <template is="dom-if" if="[[isArray(_renderJson)]]" restamp="true">
-      <json-table-array json="[[_renderJson]]"></json-table-array>
+      <div class="array-wrapper">
+        <json-table-array json="[[_renderJson]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-array>
+      </div>
     </template>
     <template is="dom-if" if="[[isObject(_renderJson)]]" restamp="true">
-      <json-table-object json="[[_renderJson]]"></json-table-object>
+      <json-table-object json="[[_renderJson]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-object>
     </template>
   </template>
   <script>
@@ -78,6 +110,7 @@ Custom property | Description | Default
     // Handler for `json` attribute value change.
     _jsonChanged: function(json) {
       this._setParserError(false);
+      this.set('_renderJson', undefined);
       if (!json) {
         return this.set('_renderJson', undefined);
       }
@@ -85,17 +118,23 @@ Custom property | Description | Default
         try {
           json = JSON.parse(json);
           // No need for copy.
-          return this.set('_renderJson', json);
+          return this._setRenderJson(json);
         } catch (e) {
           this._setParserError(true);
-          return this.set('_renderJson', undefined);
+          return;
         }
       }
       if (this.isArray(json)) {
-        this.set('_renderJson', Array.from(json));
+        this._setRenderJson(Array.from(json));
       } else {
-        this.set('_renderJson', Object.assign({}, json));
+        this._setRenderJson(Object.assign({}, json));
       }
+    },
+
+    _setRenderJson: function(json) {
+      this.async(function() {
+        this.set('_renderJson', json);
+      }, 1);
     }
   });
   </script>

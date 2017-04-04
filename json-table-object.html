@@ -45,19 +45,15 @@ Custom property | Description | Default
         @apply(--layout-horizontal);
         min-height: 24px;
         padding: 8px 0;
-        border-bottom: 1px rgba(0, 0, 0, 0.12) solid;
+        border-bottom: 1px var(--json-table-item-border-bottom-color, rgba(0, 0, 0, 0.12)) solid;
       }
 
       .item:last-of-type {
         border-bottom: none;
       }
 
-      .item:hover {
-        background-color: #EEEEEE;
-      }
-
       .property-name {
-        width: 160px;
+        width: var(--json-table-list-property-name-width, 160px);
         min-width: 160px;
         word-break: break-all;
         margin-right: 12px;
@@ -75,10 +71,15 @@ Custom property | Description | Default
     </style>
     <template is="dom-repeat" items="[[display]]">
       <div class="item">
-        <div class="property-name">[[item.key]]</div>
+        <div class="property-name">
+          [[item.key]]
+          <template is="dom-if" if="[[_isEnumOrArray(item.*)]]">
+            ([[_computeArraySize(item.*)]])
+          </template>
+        </div>
         <div class="property-value">
           <template is="dom-if" if="[[item.isObject]]" restamp="true">
-            <json-table-object json="[[item.value]]"></json-table-object>
+            <json-table-object json="[[item.value]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-object>
           </template>
           <template is="dom-if" if="[[item.isEnum]]" restamp="true">
             <template is="dom-repeat" items="[[item.value]]">
@@ -86,7 +87,7 @@ Custom property | Description | Default
             </template>
           </template>
           <template is="dom-if" if="[[item.isArray]]" restamp="true">
-            <json-table-array json="[[item.value]]"></json-table-array>
+            <json-table-array json="[[item.value]]"  paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-array>
           </template>
           <template is="dom-if" if="[[item.isPrimitive]]" restamp="true">
             <span class="primitive-value">[[item.value]]</span>
