@@ -53,7 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-item data-example="">Add JSON</paper-item>
           </paper-listbox>
         </paper-dropdown-menu>
-        <json-table json="[[json]]"></json-table>
+        <json-table json="[[json]]" paginate page="0" items-per-page="20"></json-table>
         <paper-dialog id="inputDialog" on-iron-overlay-closed="_dialogClosed">
           <h2>Paste JSON value</h2>
           <div>
