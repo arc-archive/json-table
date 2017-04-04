@@ -1,3 +1,13 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/advanced-rest-client/json-table/compare/0.1.1...v0.1.3) (2017-04-04)
+
+
+### New
+
+* Added a content element to hold a content actions for the view ([ebcadf3fede998e6e1bad3290037f390cf38d4b2](https://github.com/advanced-rest-client/json-table/commit/ebcadf3fede998e6e1bad3290037f390cf38d4b2))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/advanced-rest-client/json-table/compare/0.1.1...v0.1.2) (2017-04-04)
 
