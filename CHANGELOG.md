@@ -1,3 +1,13 @@
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/advanced-rest-client/json-table/compare/0.1.4...v0.1.6) (2017-04-04)
+
+
+### Update
+
+* Updated the view for objects / array included into another objects ([926b84908e9ed4a1e0311dd71765c964d262901c](https://github.com/advanced-rest-client/json-table/commit/926b84908e9ed4a1e0311dd71765c964d262901c))
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/advanced-rest-client/json-table/compare/0.1.4...v0.1.5) (2017-04-04)
 
