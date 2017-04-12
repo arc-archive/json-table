@@ -81,6 +81,9 @@ Custom property | Description | Default
       .object .property-name,
       .array .property-name  {
         font-weight: 500;
+        width: auto;
+        min-width: auto;
+        padding-bottom: 8px;
       }
 
       json-table-object,
@@ -90,6 +93,15 @@ Custom property | Description | Default
 
       .enum-value {
         display: block;
+      }
+
+      .enum-value::after {
+        content: ',';
+        color: rgba(0, 0, 0, 0.54);
+      }
+
+      .enum-value:last-of-type::after {
+        content: ''
       }
     </style>
     <template is="dom-repeat" items="[[display]]">
@@ -163,8 +175,11 @@ Custom property | Description | Default
           return;
         }
         var item = record.base;
-        if (item.isArray || item.isEnum) {
+        if (item.isArray/* || item.isEnum*/) {
           return 'array';
+        }
+        if (item.isEnum) {
+          return 'enum';
         }
         if (item.isObject) {
           return 'object';
