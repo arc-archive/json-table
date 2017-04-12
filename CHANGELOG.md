@@ -1,3 +1,19 @@
+<a name="0.1.9"></a>
+## [0.1.9](https://github.com/advanced-rest-client/json-table/compare/0.1.7...v0.1.9) (2017-04-12)
+
+
+### Update
+
+* Updated view for enum values ([6621d63c95da556062657ad2d520055fc6d996df](https://github.com/advanced-rest-client/json-table/commit/6621d63c95da556062657ad2d520055fc6d996df))
+
+
+
+<a name="0.1.8"></a>
+## [0.1.8](https://github.com/advanced-rest-client/json-table/compare/0.1.7...v0.1.8) (2017-04-12)
+
+
+
+
 <a name="0.1.7"></a>
 ## [0.1.7](https://github.com/advanced-rest-client/json-table/compare/0.1.6...v0.1.7) (2017-04-04)
 
