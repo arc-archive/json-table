@@ -29,16 +29,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <link rel="import" href="../../anypoint-styles/anypoint-styles.html">
   <link rel="import" href="../json-table.html">
   <style is="custom-style" include="demo-pages-shared-styles">
-  html,
+  html {
+    font-size: 65%;
+  }
+
   body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', 'Noto', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
+    @apply(--anypoint-font-body);
   }
 
   .vertical-section-container {
@@ -49,6 +47,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --arc-font-body: {
       @apply(--anypoint-font-body);
     }
+  }
+
+  json-table {
+    margin-top: 40px;
   }
   </style>
 </head>
@@ -62,6 +64,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-listbox class="dropdown-content" on-iron-select="fileSelected">
             <paper-item data-example="./drive.json">Google Drive files list</paper-item>
             <paper-item data-example="./example.json">Complex structure example</paper-item>
+            <paper-item data-example="./social-data-list.json">Social data list</paper-item>
+            <paper-item data-example="./enrichment-candidates.json">enrichment candidates</paper-item>
+            <paper-item data-example="./git-candidate-list.json">git candidate list</paper-item>
+            <paper-item data-example="./linkedin-people.json">linkedin people</paper-item>
+            <paper-item data-example="./trainedmodels.json">trainedmodels</paper-item>
+            <paper-item data-example="./trainedmodels-model.json">trainedmodels > model</paper-item>
+            <paper-item data-example="./trainedmodels-model-analyze.json">trainedmodels > model > analyze</paper-item>
             <paper-item data-example="">Add JSON</paper-item>
           </paper-listbox>
         </paper-dropdown-menu>
@@ -90,6 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           app.addToast = function(text) {
             var toast = document.createElement('paper-toast');
             toast.text = text;
+            toast.opened = true;
             document.body.appendChild(toast);
           };
           app.getJson = function(url) {
