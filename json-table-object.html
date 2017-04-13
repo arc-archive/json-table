@@ -39,6 +39,7 @@ Custom property | Description | Default
     <style>
       :host {
         display: block;
+        --json-table-property-name-width: auto;
       }
 
       .item {
@@ -58,37 +59,49 @@ Custom property | Description | Default
       }
 
       .property-name {
-        width: var(--json-table-list-property-name-width, 160px);
-        min-width: var(--json-table-list-property-name-width, 160px);
+        /*width: var(--json-table-list-property-name-width, 160px);
+        min-width: var(--json-table-list-property-name-width, 160px);*/
         color: var(--json-table-list-property-name-color, rgba(0,0,0,0.54));
         word-break: break-all;
         margin-right: 12px;
         padding-right: 12px;
+        white-space: normal;
+        word-break: normal;
+        margin: 8px 12px 8px 0;
       }
 
       .property-value {
         @apply(--layout-flex);
         word-wrap: normal;
         overflow: auto;
+
       }
 
       .object .property-value,
       .array .property-value {
         overflow: visible;
+      }
+
+      .object .property-value {
         margin-left: var(--json-table-indent-size, 12px);
       }
 
       .object .property-name,
       .array .property-name  {
-        font-weight: 500;
+        font-weight: 600;
         width: auto;
         min-width: auto;
-        padding-bottom: 8px;
       }
 
       json-table-object,
       json-table-array {
         overflow: auto;
+      }
+
+      :host > .object > .property-name,
+      :host > .array > .property-name {
+        color: #000;
+
       }
 
       .enum-value {
@@ -103,31 +116,39 @@ Custom property | Description | Default
       .enum-value:last-of-type::after {
         content: ''
       }
+
+      .object-label,
+      .array-label {
+        color: #58595A;
+      }
     </style>
     <template is="dom-repeat" items="[[display]]">
       <div class$="item [[_computeItemClass(item.*)]]">
         <div class="property-name">
           [[item.key]]
+          <template is="dom-if" if="[[item.isObject]]">
+            <span class="object-label">(Object)</span>
+          </template>
           <template is="dom-if" if="[[_isEnumOrArray(item.*)]]">
-            ([[_computeArraySize(item.*)]])
+            <span class="array-label">(Array [[_computeArraySize(item.*)]])</span>
           </template>
         </div>
         <div class="property-value">
-          <template is="dom-if" if="[[item.isObject]]" restamp="true">
+          <template is="dom-if" if="[[item.isObject]]">
             <json-table-object json="[[item.value]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-object>
           </template>
-          <template is="dom-if" if="[[item.isEnum]]" restamp="true">
+          <template is="dom-if" if="[[item.isEnum]]">
             <template is="dom-repeat" items="[[item.value]]">
               <span class="enum-value">[[item]]</span>
             </template>
           </template>
-          <template is="dom-if" if="[[item.isArray]]" restamp="true">
+          <template is="dom-if" if="[[item.isArray]]">
             <div class="array-wrapper">
               <json-table-array json="[[item.value]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-array>
             </div>
           </template>
-          <template is="dom-if" if="[[item.isPrimitive]]" restamp="true">
-            <span class="primitive-value">[[item.value]]</span>
+          <template is="dom-if" if="[[item.isPrimitive]]">
+            <json-table-primitive-teaser class="primitive-value">[[item.value]]</json-table-primitive-teaser>
           </template>
         </div>
       </div>

@@ -1,3 +1,19 @@
+<a name="0.1.12"></a>
+## [0.1.12](https://github.com/advanced-rest-client/json-table/compare/0.1.10...v0.1.12) (2017-04-13)
+
+
+### UPdate
+
+* Updated styling for the elements ([85776959095a6370f0b84577e7cea7a79d3fb3ae](https://github.com/advanced-rest-client/json-table/commit/85776959095a6370f0b84577e7cea7a79d3fb3ae))
+
+
+
+<a name="0.1.11"></a>
+## [0.1.11](https://github.com/advanced-rest-client/json-table/compare/0.1.10...v0.1.11) (2017-04-13)
+
+
+
+
 <a name="0.1.10"></a>
 ## [0.1.10](https://github.com/advanced-rest-client/json-table/compare/0.1.9...v0.1.10) (2017-04-12)
 
