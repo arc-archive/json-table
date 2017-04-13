@@ -47,7 +47,7 @@ Custom property | Description | Default
       display: block;
 
       --table-actions-label-color: rgba(0, 0, 0, 0.74);
-      --table-actions-label-font-size: 13px;
+      --table-actions-label-font-size: 14px;
 
       --paper-dropdown-menu: {
         width: 70px;
@@ -81,19 +81,19 @@ Custom property | Description | Default
     th {
       white-space: nowrap;
       text-align: left;
-      padding: 8px 12px;
+      padding: 8px 16px;
       @apply(--arc-font-body);
-      font-size: 13px;
+      font-size: 14px;
       color: var(--json-table-array-header-color, --anypoint-color-steel2);
-      border-bottom: 1px rgba(0,0,0,0.12) solid;
+      border-bottom: 3px #e8e9ea solid; /* Anypoint aluminum3 */
     }
 
     td {
       min-width: 60px;
-      padding: 8px 12px;
+      padding: 8px 16px;
       word-break: normal;
       vertical-align: top;
-      border-bottom: 1px rgba(0,0,0,0.12) solid;
+      border-bottom: 1px #E8E9EA solid;
       @apply(--arc-font-body);
       font-size: 14px;
       color: var(--json-table-array-body-color, --anypoint-color-steel5);
@@ -105,6 +105,8 @@ Custom property | Description | Default
 
     .enum-value {
       display: block;
+      padding: 4px 0;
+      margin: 4px 0;
     }
 
     .enum-value::after {
@@ -185,14 +187,14 @@ Custom property | Description | Default
           <tr>
             <template is="dom-repeat" items="[[columns]]" as="column">
               <td>
-                <template is="dom-if" if="[[_isPrimitive(displayItem, column)]]" restamp="true">
+                <template is="dom-if" if="[[_isPrimitive(displayItem, column)]]">
                   <json-table-primitive-teaser class="primitive-value">[[_getValue(displayItem, column)]]</json-table-primitive-teaser>
                 </template>
-                <template is="dom-if" if="[[_isObject(displayItem, column)]]" restamp="true">
-                  <span class="object-info"><span class="object-label" object>Object</span> <a href="#" class="toggle-view" data-target="object" on-tap="_toggleItem">show object</a></span>
-                  <template is="dom-if" if="[[false]]" object>
+                <template is="dom-if" if="[[_isObject(displayItem, column)]]">
+                  <!-- <span class="object-info"><span class="object-label" object>Object</span> <a href="#" class="toggle-view" data-target="object" on-tap="_toggleItem">show object</a></span> -->
+                  <!-- <template is="dom-if" if="[[false]]" object> -->
                     <json-table-object json="[[_getValue(displayItem, column)]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-object>
-                  </template>
+                  <!-- </template> -->
                 </template>
                 <template is="dom-if" if="[[_isEnum(displayItem, column)]]">
                   <template is="dom-repeat" items="[[_getValue(displayItem, column)]]">
