@@ -1,3 +1,13 @@
+<a name="0.1.14"></a>
+## [0.1.14](https://github.com/advanced-rest-client/json-table/compare/0.1.12...0.1.14) (2017-10-02)
+
+
+### Update
+
+* Added styles for hidden objects ([feeb29592c7530a49ade1dcecad5b48490cff000](https://github.com/advanced-rest-client/json-table/commit/feeb29592c7530a49ade1dcecad5b48490cff000))
+
+
+
 <a name="0.1.13"></a>
 ## [0.1.13](https://github.com/advanced-rest-client/json-table/compare/0.1.12...v0.1.13) (2017-06-15)
 
