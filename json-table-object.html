@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright 2016 The Advanced REST client authors <arc@mulesoft.com>
+Copyright 2018 The Advanced REST client authors <arc@mulesoft.com>
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
 the License at
@@ -11,29 +11,12 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 -->
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="json-table-behavior.html">
+<link rel="import" href="../polymer/lib/elements/dom-if.html">
+<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="json-table-mixin.html">
 <link rel="import" href="json-table-array.html">
-
-<!--
-`<json-table-object>` element displays object structure.
-
-### Example
-```
-<json-table-object json="{...}"></json-table-object>
-```
-
-### Styling
-`<json-table>` provides the following custom properties and mixins for styling:
-
-Custom property | Description | Default
-----------------|-------------|----------
-`--json-table-object` | Mixin applied to the element | `{}`
-
-@element json-table-object
-@demo demo/index.html
--->
 <dom-module id="json-table-object">
   <template>
     <style>
@@ -43,7 +26,7 @@ Custom property | Description | Default
       }
 
       .item {
-        @apply(--layout-horizontal);
+        @apply --layout-horizontal;
         min-height: 24px;
         padding: 8px 0;
         border-bottom: 1px var(--json-table-item-border-bottom-color, rgba(0, 0, 0, 0.12)) solid;
@@ -51,7 +34,7 @@ Custom property | Description | Default
 
       .item.array,
       .item.object {
-        @apply(--layout-vertical);
+        @apply --layout-vertical;
       }
 
       .item:last-of-type {
@@ -59,8 +42,6 @@ Custom property | Description | Default
       }
 
       .property-name {
-        /*width: var(--json-table-list-property-name-width, 160px);
-        min-width: var(--json-table-list-property-name-width, 160px);*/
         color: var(--json-table-list-property-name-color, rgba(0,0,0,0.54));
         word-break: break-all;
         margin-right: 12px;
@@ -71,7 +52,7 @@ Custom property | Description | Default
       }
 
       .property-value {
-        @apply(--layout-flex);
+        @apply --layout-flex;
         word-wrap: normal;
         overflow: auto;
 
@@ -155,12 +136,33 @@ Custom property | Description | Default
     </template>
   </template>
   <script>
-    Polymer({
-      is: 'json-table-object',
-
-      behaviors: [ArcBehaviors.JsonTableBehavior],
-
-      properties: {
+  /**
+   * An element that displays object structure.
+   *
+   * ### Example
+   *
+   * ```html
+   * <json-table-object json="{...}"></json-table-object>
+   * ```
+   *
+   * ### Styling
+   *
+   * `<json-table>` provides the following custom properties and mixins for styling:
+   *
+   * Custom property | Description | Default
+   * ----------------|-------------|----------
+   * `--json-table-object` | Mixin applied to the element | `{}`
+   *
+   * @polymer
+   * @customElement
+   * @appliesMixin JsonTableMixin
+   * @memberof UiElements
+   */
+  class JsonTableObject extends JsonTableMixin(Polymer.Element) {
+    /* global JsonTableMixin */
+    static get is() { return 'json-table-object'; }
+    static get properties() {
+      return {
         // An object to render.
         json: {
           type: Object,
@@ -171,41 +173,41 @@ Custom property | Description | Default
           type: Array,
           readOnly: true
         }
-      },
-      /**
-       * Creates a data model from the JSON object.
-       * The element is only interested in first level properties. Other properties will be rendered
-       * by child elements.
-       *
-       * TODO: This should be a deep data observer to update only the portion of the model that
-       * actually has changed.
-       */
-      _jsonChanged: function(json) {
-        if (!json) {
-          return this._setDisplay(undefined);
-        }
-        var names = Object.keys(json);
-        var model = names.map(function(key) {
-          return this.getPropertyModel(key, json[key]);
-        }, this);
-        this._setDisplay(model);
-      },
-
-      _computeItemClass: function(record) {
-        if (!record || !record.base) {
-          return;
-        }
-        var item = record.base;
-        if (item.isArray/* || item.isEnum*/) {
-          return 'array';
-        }
-        if (item.isEnum) {
-          return 'enum';
-        }
-        if (item.isObject) {
-          return 'object';
-        }
+      };
+    }
+    /**
+     * Creates a data model from the JSON object.
+     * The element is only interested in first level properties. Other properties will be rendered
+     * by child elements.
+     *
+     * TODO: This should be a deep data observer to update only the portion of the model that
+     * actually has changed.
+     */
+    _jsonChanged(json) {
+      if (!json) {
+        return this._setDisplay(undefined);
       }
-    });
+      const names = Object.keys(json);
+      const model = names.map((key) => this.getPropertyModel(key, json[key]));
+      this._setDisplay(model);
+    }
+
+    _computeItemClass(record) {
+      if (!record || !record.base) {
+        return;
+      }
+      const item = record.base;
+      if (item.isArray/* || item.isEnum*/) {
+        return 'array';
+      }
+      if (item.isEnum) {
+        return 'enum';
+      }
+      if (item.isObject) {
+        return 'object';
+      }
+    }
+  }
+  window.customElements.define(JsonTableObject.is, JsonTableObject);
   </script>
 </dom-module>

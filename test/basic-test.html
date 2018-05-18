@@ -1,24 +1,10 @@
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../iron-test-helpers/test-helpers.js"></script>
-    <script src="../../iron-test-helpers/mock-interactions.js"></script>
-
-    <link rel="import" href="../../promise-polyfill/promise-polyfill.html">
     <link rel="import" href="../../fetch-polyfill/fetch-polyfill.html">
     <link rel="import" href="../json-table.html">
   </head>
@@ -31,10 +17,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </test-fixture>
 
     <script>
-    /* global fixture, assert */
-    suite('test JSON object', function() {
-      var element;
-      var jsonData;
+    suite('test JSON object', () => {
+      let element;
+      let jsonData;
 
       suiteSetup(function(done) {
         fetch('../demo/drive.json')
@@ -54,40 +39,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       });
 
-      setup(function() {
+      setup(() => {
         element = fixture('basic');
         element.json = jsonData;
       });
 
       test('_renderJson should be set', function(done) {
         // This is async operation
-        setTimeout(function() {
+        setTimeout(() => {
           assert.isObject(element._renderJson);
           done();
-        }, 1);
+        }, 10);
       });
 
       test('parserError should equal false', function(done) {
         // This is async operation
-        setTimeout(function() {
+        setTimeout(() => {
           assert.isFalse(element.parserError);
           done();
-        }, 1);
+        }, 10);
       });
 
       test('Should render json-table-object', function(done) {
         // This is async operation
-        setTimeout(function() {
-          var renderer = element.$$('json-table-object');
+        setTimeout(() => {
+          const renderer = element.shadowRoot.querySelector('json-table-object');
           assert.isDefined(renderer);
           done();
-        }, 1);
+        }, 10);
       });
     });
 
-    suite('test JSON array', function() {
-      var element;
-      var jsonData;
+    suite('test JSON array', () => {
+      let element;
+      let jsonData;
 
       suiteSetup(function(done) {
         fetch('../demo/example.json')
@@ -107,34 +92,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       });
 
-      setup(function() {
+      setup(() => {
         element = fixture('basic');
         element.json = jsonData;
       });
 
       test('_renderJson should be set', function(done) {
         // This is async operation
-        setTimeout(function() {
+        setTimeout(() => {
           assert.isArray(element._renderJson);
           done();
-        }, 1);
+        }, 10);
       });
 
       test('parserError should equal false', function(done) {
         // This is async operation
-        setTimeout(function() {
+        setTimeout(() => {
           assert.isFalse(element.parserError);
           done();
-        }, 1);
+        }, 10);
       });
 
       test('Should render json-table-array', function(done) {
         // This is async operation
-        setTimeout(function() {
-          var renderer = element.$$('json-table-array');
+        setTimeout(() => {
+          const renderer = element.shadowRoot.querySelector('json-table-array');
           assert.isDefined(renderer);
           done();
-        }, 1);
+        }, 10);
       });
     });
     </script>
