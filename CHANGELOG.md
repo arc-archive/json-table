@@ -1,3 +1,17 @@
+<a name="2.0.2"></a>
+## [2.0.2](https://github.com/advanced-rest-client/json-table/compare/2.0.0-preview...2.0.2) (2018-11-21)
+
+
+### Fix
+
+* Fixing tests configuration ([913e6f4968dd31fe0d7851c88996c766e342db9b](https://github.com/advanced-rest-client/json-table/commit/913e6f4968dd31fe0d7851c88996c766e342db9b))
+
+### Update
+
+* Updating styles and docs. ([1d85d55e55ad0433dc68948beae3e2e59a3eab99](https://github.com/advanced-rest-client/json-table/commit/1d85d55e55ad0433dc68948beae3e2e59a3eab99))
+
+
+
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/advanced-rest-client/json-table/compare/0.1.12...2.0.1) (2018-05-18)
 
