@@ -42,7 +42,7 @@ the License.
       }
 
       .property-name {
-        color: var(--json-table-list-property-name-color, rgba(0,0,0,0.54));
+        color: var(--json-table-list-property-name-color, #000);
         word-break: break-all;
         margin-right: 12px;
         padding-right: 12px;
@@ -81,8 +81,7 @@ the License.
 
       :host > .object > .property-name,
       :host > .array > .property-name {
-        color: #000;
-
+        color: var(--json-table-list-property-name-color, #000);
       }
 
       .enum-value {
@@ -100,7 +99,7 @@ the License.
 
       .object-label,
       .array-label {
-        color: #58595A;
+        color: var(--json-table-complex-name-label-color, #58595A);
       }
     </style>
     <template is="dom-repeat" items="[[display]]">
