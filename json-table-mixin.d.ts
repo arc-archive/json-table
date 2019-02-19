@@ -5,8 +5,16 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   json-table-mixin.html
+ *   json-table-mixin.js
  */
+
+
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
+
+import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin.js';
+
+export {JsonTableMixin};
 
 
 /**
@@ -17,6 +25,8 @@ declare function JsonTableMixin<T extends new (...args: any[]) => {}>(base: T): 
 interface JsonTableMixinConstructor {
   new(...args: any[]): JsonTableMixin;
 }
+
+export {JsonTableMixinConstructor};
 
 interface JsonTableMixin {
 
@@ -41,14 +51,14 @@ interface JsonTableMixin {
    *
    * @param arr Candidate to test for object
    */
-  isArray(arr: any|null): any;
+  isArray(arr: any|null): Boolean|null;
 
   /**
    * Returns true if given argument is an object.
    *
    * @param obj Candidate to test for object
    */
-  isObject(obj: any|null): any;
+  isObject(obj: any|null): Boolean|null;
 
   /**
    * Check if given object is one of the primitives.

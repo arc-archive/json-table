@@ -5,13 +5,20 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   json-table-primitive-teaser.html
+ *   json-table-primitive-teaser.js
  */
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../polymer/types/lib/utils/flattened-nodes-observer.d.ts" />
 
-declare class JsonTablePrimitiveTeaser extends Polymer.Element {
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
+
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer.js';
+
+declare class JsonTablePrimitiveTeaser extends PolymerElement {
 
   /**
    * If true then the whole value will be visible.
@@ -40,6 +47,9 @@ declare class JsonTablePrimitiveTeaser extends Polymer.Element {
   _maxHeightChanged(maxHeight: any): void;
 }
 
-interface HTMLElementTagNameMap {
-  "json-table-primitive-teaser": JsonTablePrimitiveTeaser;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "json-table-primitive-teaser": JsonTablePrimitiveTeaser;
+  }
 }

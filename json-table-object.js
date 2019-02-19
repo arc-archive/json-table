@@ -1,4 +1,4 @@
-<!--
+/**
 @license
 Copyright 2018 The Advanced REST client authors <arc@mulesoft.com>
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -10,15 +10,36 @@ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
--->
-<link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../polymer/lib/elements/dom-if.html">
-<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
-<link rel="import" href="json-table-mixin.html">
-<link rel="import" href="json-table-array.html">
-<dom-module id="json-table-object">
-  <template>
+*/
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {JsonTableMixin} from './json-table-mixin.js';
+import './json-table-array.js';
+/**
+ * An element that displays object structure.
+ *
+ * ### Example
+ *
+ * ```html
+ * <json-table-object json="{...}"></json-table-object>
+ * ```
+ *
+ * ### Styling
+ *
+ * `<json-table>` provides the following custom properties and mixins for styling:
+ *
+ * Custom property | Description | Default
+ * ----------------|-------------|----------
+ * `--json-table-object` | Mixin applied to the element | `{}`
+ *
+ * @polymer
+ * @customElement
+ * @appliesMixin JsonTableMixin
+ * @memberof UiElements
+ */
+class JsonTableObject extends JsonTableMixin(PolymerElement) {
+  static get template() {
+    return html`
     <style>
       :host {
         display: block;
@@ -103,7 +124,7 @@ the License.
       }
     </style>
     <template is="dom-repeat" items="[[display]]">
-      <div class$="item [[_computeItemClass(item.*)]]">
+      <div class\$="item [[_computeItemClass(item.*)]]">
         <div class="property-name">
           [[item.key]]
           <template is="dom-if" if="[[item.isObject]]">
@@ -133,80 +154,56 @@ the License.
         </div>
       </div>
     </template>
-  </template>
-  <script>
-  /**
-   * An element that displays object structure.
-   *
-   * ### Example
-   *
-   * ```html
-   * <json-table-object json="{...}"></json-table-object>
-   * ```
-   *
-   * ### Styling
-   *
-   * `<json-table>` provides the following custom properties and mixins for styling:
-   *
-   * Custom property | Description | Default
-   * ----------------|-------------|----------
-   * `--json-table-object` | Mixin applied to the element | `{}`
-   *
-   * @polymer
-   * @customElement
-   * @appliesMixin JsonTableMixin
-   * @memberof UiElements
-   */
-  class JsonTableObject extends JsonTableMixin(Polymer.Element) {
-    /* global JsonTableMixin */
-    static get is() { return 'json-table-object'; }
-    static get properties() {
-      return {
-        // An object to render.
-        json: {
-          type: Object,
-          observer: '_jsonChanged'
-        },
-        // data model created from the `json` attribute.
-        display: {
-          type: Array,
-          readOnly: true
-        }
-      };
-    }
-    /**
-     * Creates a data model from the JSON object.
-     * The element is only interested in first level properties. Other properties will be rendered
-     * by child elements.
-     *
-     * TODO: This should be a deep data observer to update only the portion of the model that
-     * actually has changed.
-     */
-    _jsonChanged(json) {
-      if (!json) {
-        return this._setDisplay(undefined);
-      }
-      const names = Object.keys(json);
-      const model = names.map((key) => this.getPropertyModel(key, json[key]));
-      this._setDisplay(model);
-    }
+`;
+  }
 
-    _computeItemClass(record) {
-      if (!record || !record.base) {
-        return;
+  /* global JsonTableMixin */
+  static get is() { return 'json-table-object'; }
+  static get properties() {
+    return {
+      // An object to render.
+      json: {
+        type: Object,
+        observer: '_jsonChanged'
+      },
+      // data model created from the `json` attribute.
+      display: {
+        type: Array,
+        readOnly: true
       }
-      const item = record.base;
-      if (item.isArray/* || item.isEnum*/) {
-        return 'array';
-      }
-      if (item.isEnum) {
-        return 'enum';
-      }
-      if (item.isObject) {
-        return 'object';
-      }
+    };
+  }
+  /**
+   * Creates a data model from the JSON object.
+   * The element is only interested in first level properties. Other properties will be rendered
+   * by child elements.
+   *
+   * TODO: This should be a deep data observer to update only the portion of the model that
+   * actually has changed.
+   */
+  _jsonChanged(json) {
+    if (!json) {
+      return this._setDisplay(undefined);
+    }
+    const names = Object.keys(json);
+    const model = names.map((key) => this.getPropertyModel(key, json[key]));
+    this._setDisplay(model);
+  }
+
+  _computeItemClass(record) {
+    if (!record || !record.base) {
+      return;
+    }
+    const item = record.base;
+    if (item.isArray/* || item.isEnum*/) {
+      return 'array';
+    }
+    if (item.isEnum) {
+      return 'enum';
+    }
+    if (item.isObject) {
+      return 'object';
     }
   }
-  window.customElements.define(JsonTableObject.is, JsonTableObject);
-  </script>
-</dom-module>
+}
+window.customElements.define(JsonTableObject.is, JsonTableObject);
