@@ -47,7 +47,13 @@ class JsonTableObject extends JsonTableMixin(PolymerElement) {
       }
 
       .item {
-        @apply --layout-horizontal;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+
         min-height: 24px;
         padding: 8px 0;
         border-bottom: 1px var(--json-table-item-border-bottom-color, rgba(0, 0, 0, 0.12)) solid;
@@ -55,7 +61,13 @@ class JsonTableObject extends JsonTableMixin(PolymerElement) {
 
       .item.array,
       .item.object {
-        @apply --layout-vertical;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+
+        -ms-flex-direction: column;
+        -webkit-flex-direction: column;
+        flex-direction: column;
       }
 
       .item:last-of-type {

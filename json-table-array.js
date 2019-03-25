@@ -132,9 +132,16 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
 
     .table-actions {
       height: 56px;
-      @apply --layout-horizontal;
-      /*@apply(--layout-end-justified);*/
-      @apply --layout-center;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-direction: row;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+
       @apply --arc-font-body1;
       font-size: var(--table-actions-label-font-size);
       color: var(--table-actions-label-color);
@@ -143,8 +150,16 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
     .page-items-count-selector,
     .page-count {
       margin-right: 32px;
-      @apply --layout-horizontal;
-      @apply --layout-center;
+      height: 56px;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-direction: row;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
     }
     </style>
     <template is="dom-if" if="[[paginate]]">
