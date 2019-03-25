@@ -325,8 +325,9 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
     if (maxInxdex === -1) {
       return;
     }
-    if (maxInxdex <= itemsPerPage && this.paginate) {
-      return this.set('paginate', false);
+    if (paginate && maxInxdex <= itemsPerPage) {
+      this.set('paginate', false);
+      return;
     }
     const startIndex = paginate ? (page * itemsPerPage) : 0;
     if (maxInxdex < startIndex) {
@@ -374,7 +375,7 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
   }
   // Checks if passed `item` is a primitive
   _isPrimitive(item, column) {
-    if (!item || !item.value || !column) {
+    if (!item || !item.value || typeof column === undefined) {
       return false;
     }
     if (!(column in item.value)) {
@@ -385,7 +386,7 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
   }
 
   _isObject(item, column) {
-    if (!item || !item.value || !column) {
+    if (!item || !item.value || typeof column === undefined) {
       return false;
     }
     if (!(column in item.value)) {
@@ -396,7 +397,7 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
   }
 
   _isEnum(item, column) {
-    if (!item || !item.value || !column) {
+    if (!item || !item.value || typeof column === undefined) {
       return false;
     }
     if (!(column in item.value)) {
@@ -407,7 +408,7 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
   }
 
   _isArray(item, column) {
-    if (!item || !item.value || !column) {
+    if (!item || !item.value || typeof column === undefined) {
       return false;
     }
     if (!(column in item.value)) {
@@ -418,7 +419,7 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
   }
 
   _getValue(item, column) {
-    if (!item || !item.value || !column) {
+    if (!item || !item.value || typeof column === undefined) {
       return;
     }
     if (!(column in item.value)) {
@@ -430,9 +431,9 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
   _toggleItem(e) {
     e.preventDefault();
     let cell;
-    var currentElement = e.target;
-    var targetAnchor =  e.target;
-    var templateTarget = currentElement.dataset.target;
+    let currentElement = e.target;
+    let targetAnchor = e.target;
+    let templateTarget = currentElement.dataset.target;
     while (true) {
       if (currentElement.nodeName === 'TD') {
         cell = currentElement;

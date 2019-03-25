@@ -90,6 +90,266 @@
           'startItemLabel equals startIndex + itemsPerPage');
       });
     });
+
+    suite('_jsonChanged()', () => {
+      let element;
+      setup(function() {
+        element = fixture('basic');
+      });
+
+      test('Resets display when no value', () => {
+        element._setDisplay('test');
+        element._jsonChanged();
+        assert.isUndefined(element.display);
+      });
+
+      test('Resets columns when no value', () => {
+        element._setColumns('test');
+        element._jsonChanged();
+        assert.isUndefined(element.columns);
+      });
+
+      test('Sets columns property', () => {
+        const json = [{test: true}];
+        element._jsonChanged(json);
+        assert.deepEqual(element.columns, ['test']);
+      });
+    });
+
+    suite('_computeDisplay()', () => {
+      let element;
+      setup(function() {
+        element = fixture('basic');
+      });
+
+      test('Does nothing when no json', () => {
+        element._computeDisplay();
+        assert.isUndefined(element.display);
+      });
+
+      test('Does nothing when empty array', () => {
+        element._computeDisplay([]);
+        assert.isUndefined(element.display);
+      });
+
+      test('Resets paginate property', () => {
+        element.paginate = true;
+        element._computeDisplay([{}, {}, {}], true, 0, 10);
+        assert.isFalse(element.paginate);
+      });
+
+      test('Does nothing when current page is out of bounds', () => {
+        element._computeDisplay([{}, {}, {}], true, 1, 10);
+        assert.isUndefined(element.display);
+      });
+    });
+
+    suite('_isPrimitive()', () => {
+      let element;
+      setup(function() {
+        element = fixture('basic');
+      });
+
+      test('Returns falsew when no item', () => {
+        const result = element._isPrimitive(undefined, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no value', () => {
+        const result = element._isPrimitive({}, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no value', () => {
+        const result = element._isPrimitive({}, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no column', () => {
+        const result = element._isPrimitive({value: []});
+        assert.isFalse(result);
+      });
+
+      test('Returns false when value is not primitive', () => {
+        const result = element._isPrimitive({value: [{}]}, 0);
+        assert.isFalse(result);
+      });
+
+      test('Returns true when value is primitive', () => {
+        const result = element._isPrimitive({value: [false]}, 0);
+        assert.isTrue(result);
+      });
+    });
+
+    suite('_isObject()', () => {
+      let element;
+      setup(function() {
+        element = fixture('basic');
+      });
+
+      test('Returns falsew when no item', () => {
+        const result = element._isObject(undefined, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no value', () => {
+        const result = element._isObject({}, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no value', () => {
+        const result = element._isObject({}, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no column', () => {
+        const result = element._isObject({value: []});
+        assert.isFalse(result);
+      });
+
+      test('Returns false when value is not object', () => {
+        const result = element._isObject({value: [[]]}, 0);
+        assert.isFalse(result);
+      });
+
+      test('Returns true when value is object', () => {
+        const result = element._isObject({value: [{}]}, 0);
+        assert.isTrue(result);
+      });
+    });
+
+    suite('_isEnum()', () => {
+      let element;
+      setup(function() {
+        element = fixture('basic');
+      });
+
+      test('Returns false when no item', () => {
+        const result = element._isEnum(undefined, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no value', () => {
+        const result = element._isEnum({}, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no value', () => {
+        const result = element._isEnum({}, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no column', () => {
+        const result = element._isEnum({value: []});
+        assert.isFalse(result);
+      });
+
+      test('Returns false when value is not enum', () => {
+        const result = element._isEnum({value: [[true, {}]]}, 0);
+        assert.isFalse(result);
+      });
+
+      test('Returns true when value is enum', () => {
+        const result = element._isEnum({value: [[1, true]]}, 0);
+        assert.isTrue(result);
+      });
+    });
+
+    suite('_isArray()', () => {
+      let element;
+      setup(function() {
+        element = fixture('basic');
+      });
+
+      test('Returns false when no item', () => {
+        const result = element._isArray(undefined, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no value', () => {
+        const result = element._isArray({}, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no value', () => {
+        const result = element._isArray({}, 1);
+        assert.isFalse(result);
+      });
+
+      test('Returns false when no column', () => {
+        const result = element._isArray({value: []});
+        assert.isFalse(result);
+      });
+
+      test('Returns false when value is not an array', () => {
+        const result = element._isArray({value: [true]}, 0);
+        assert.isFalse(result);
+      });
+
+      test('Returns true when value is enum', () => {
+        const result = element._isArray({value: [[1, {}]]}, 0);
+        assert.isTrue(result);
+      });
+    });
+
+    suite('_getValue()', () => {
+      let element;
+      setup(function() {
+        element = fixture('basic');
+      });
+
+      test('Returns undefined when no item', () => {
+        const result = element._getValue(undefined, 1);
+        assert.isUndefined(result);
+      });
+
+      test('Returns undefined when no value', () => {
+        const result = element._getValue({}, 1);
+        assert.isUndefined(result);
+      });
+
+      test('Returns undefined when no value', () => {
+        const result = element._getValue({}, 1);
+        assert.isUndefined(result);
+      });
+
+      test('Returns undefined when no column', () => {
+        const result = element._getValue({value: []});
+        assert.isUndefined(result);
+      });
+
+      test('Returns the value', () => {
+        const result = element._getValue({value: ['test']}, 0);
+        assert.equal(result, 'test');
+      });
+    });
+
+    suite('previousPage()', () => {
+      let element;
+      setup(function() {
+        element = fixture('basic');
+        element.page = 1;
+      });
+
+      test('Does nothing when no pagination', () => {
+        element.paginate = false;
+        element.previousPage();
+        assert.equal(element.page, 1);
+      });
+
+      test('Updates page index', () => {
+        element.paginate = true;
+        element.previousPage();
+        assert.equal(element.page, 0);
+      });
+
+      test('Does nothing when page index is 0', () => {
+        element.paginate = true;
+        element.page = 0;
+        element.previousPage();
+        assert.equal(element.page, 0);
+      });
+    });
     </script>
   </body>
 </html>
