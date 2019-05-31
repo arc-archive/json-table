@@ -3,15 +3,15 @@ node_js: stable
 sudo: required
 before_script: npm install -g polymer-cli @advanced-rest-client/wct-istanbub
 addons:
-  firefox: latest
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+  # firefox: latest
+  # apt:
+  #   sources:
+  #     - google-chrome
+  #   packages:
+  #     - google-chrome-stable
   sauce_connect: true
 script:
-  - xvfb-run polymer test --module-resolution=node --npm --plugin local
+  # - xvfb-run polymer test --module-resolution=node --npm --plugin local
   - >-
     if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then polymer test
     --module-resolution=node --npm --plugin sauce --job-name
