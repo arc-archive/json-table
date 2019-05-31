@@ -5,15 +5,14 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   json-table-object.html
+ *   json-table-object.js
  */
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../iron-flex-layout/iron-flex-layout.d.ts" />
-/// <reference path="../polymer/types/lib/elements/dom-if.d.ts" />
-/// <reference path="../polymer/types/lib/elements/dom-repeat.d.ts" />
-/// <reference path="json-table-mixin.d.ts" />
-/// <reference path="json-table-array.d.ts" />
+
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
+
+import {JsonTableMixin} from './json-table-mixin.js';
 
 declare namespace UiElements {
 
@@ -61,6 +60,9 @@ declare namespace UiElements {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "json-table-object": UiElements.JsonTableObject;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "json-table-object": UiElements.JsonTableObject;
+  }
 }

@@ -5,39 +5,18 @@
  *   https://github.com/Polymer/tools/tree/master/packages/gen-typescript-declarations
  *
  * To modify these typings, edit the source file(s):
- *   json-table-array.html
+ *   json-table-array.js
  */
 
-/// <reference path="../polymer/types/polymer-element.d.ts" />
-/// <reference path="../polymer/types/lib/elements/dom-if.d.ts" />
-/// <reference path="../polymer/types/lib/elements/dom-repeat.d.ts" />
-/// <reference path="../iron-flex-layout/iron-flex-layout.d.ts" />
-/// <reference path="../paper-dropdown-menu/paper-dropdown-menu.d.ts" />
-/// <reference path="../paper-listbox/paper-listbox.d.ts" />
-/// <reference path="../paper-item/paper-item.d.ts" />
-/// <reference path="../paper-icon-button/paper-icon-button.d.ts" />
-/// <reference path="../arc-icons/arc-icons.d.ts" />
-/// <reference path="json-table-mixin.d.ts" />
-/// <reference path="json-table-object.d.ts" />
-/// <reference path="json-table-primitive-teaser.d.ts" />
+
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
+
+import {JsonTableMixin} from './json-table-mixin.js';
 
 declare namespace UiElements {
 
   /**
-   * `<json-table-array>` element displays array structure in a table.
-   *
-   * ### Example
-   * ```
-   * <json-table-array json="[...]"></json-table-array>
-   * ```
-   *
-   * ### Styling
-   * `<json-table-array>` provides the following custom properties and mixins for styling:
-   *
-   * Custom property | Description | Default
-   * ----------------|-------------|----------
-   * `--json-table-array` | Mixin applied to the element | `{}`
-   *
    * An element that displays array structure.
    *
    * ### Example
@@ -100,7 +79,7 @@ declare namespace UiElements {
      * actually has changed.
      */
     _jsonChanged(json: any): void;
-    _computeDisplay(json: any, paginate: any, page: any, itemsPerPage: any): any;
+    _computeDisplay(json: any, paginate: any, page: any, itemsPerPage: any): void;
 
     /**
      * Computes the list of column names for the table.
@@ -149,6 +128,9 @@ declare namespace UiElements {
   }
 }
 
-interface HTMLElementTagNameMap {
-  "json-table-array": UiElements.JsonTableArray;
+declare global {
+
+  interface HTMLElementTagNameMap {
+    "json-table-array": UiElements.JsonTableArray;
+  }
 }
