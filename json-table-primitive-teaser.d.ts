@@ -12,12 +12,6 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
-import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer.js';
-
 declare class JsonTablePrimitiveTeaser extends PolymerElement {
 
   /**
@@ -53,3 +47,5 @@ declare global {
     "json-table-primitive-teaser": JsonTablePrimitiveTeaser;
   }
 }
+
+export {};

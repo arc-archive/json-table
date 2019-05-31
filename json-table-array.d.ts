@@ -12,10 +12,6 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
 import {JsonTableMixin} from './json-table-mixin.js';
 
 declare namespace UiElements {
@@ -83,7 +79,7 @@ declare namespace UiElements {
      * actually has changed.
      */
     _jsonChanged(json: any): void;
-    _computeDisplay(json: any, paginate: any, page: any, itemsPerPage: any): any;
+    _computeDisplay(json: any, paginate: any, page: any, itemsPerPage: any): void;
 
     /**
      * Computes the list of column names for the table.
