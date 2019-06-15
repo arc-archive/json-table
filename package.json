@@ -20,9 +20,8 @@
     "The Advanced REST client authors <arc@mulesoft.com>"
   ],
   "devDependencies": {
+    "@advanced-rest-client/arc-demo-helper": "^1.0.1",
     "@polymer/gen-typescript-declarations": "^1.6.1",
-    "@polymer/iron-component-page": "^4.0.0",
-    "@polymer/iron-demo-helpers": "^3.1.0",
     "@polymer/iron-test-helpers": "^3.0.0",
     "@polymer/paper-button": "^3.0.0",
     "@polymer/paper-dialog": "^3.0.0",

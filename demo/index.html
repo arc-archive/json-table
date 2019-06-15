@@ -8,12 +8,10 @@
 
   <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   <script src="../../../web-animations-js/web-animations-next.min.js"></script>
+  <script type="module" src="../node_modules/@advanced-rest-client/arc-demo-helper/arc-demo-helper.js"></script>
 
   <script type="module">
-    import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
     import '@polymer/polymer/lib/elements/dom-bind.js';
-    import '@polymer/iron-demo-helpers/demo-pages-shared-styles.js';
-    import '@polymer/iron-demo-helpers/demo-snippet.js';
     import '@polymer/paper-icon-button/paper-icon-button.js';
     import '@polymer/paper-input/paper-textarea.js';
     import '@polymer/paper-toast/paper-toast.js';
@@ -25,7 +23,7 @@
     import '../json-table.js';
   </script>
   <custom-style>
-    <style is="custom-style" include="demo-pages-shared-styles">
+    <style is="custom-style">
     html {
       font-size: 65%;
     }
@@ -33,7 +31,7 @@
     body {
       margin: 0;
       padding: 0;
-      @apply(--paper-font-body);
+      @apply --paper-font-body;
     }
 
     .vertical-section-container {
@@ -42,7 +40,7 @@
 
     :host {
       --arc-font-body: {
-        @apply(--paper-font-body);
+        @apply --paper-font-body;
       }
     }
 
