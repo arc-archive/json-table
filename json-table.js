@@ -11,9 +11,8 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import {JsonTableMixin} from './json-table-mixin.js';
+import { LitElement, html, css } from 'lit-element';
+import { JsonTableMixin } from './json-table-mixin.js';
 import './json-table-object.js';
 import './json-table-array.js';
 /**
@@ -67,78 +66,55 @@ import './json-table-array.js';
  * `--json-table-array-header-color` | Color of the array table header labels | ``
  * `--json-table-array-body-color` | Color of the array table body values | ``
  *
- * @polymer
  * @customElement
  * @appliesMixin JsonTableMixin
  * @memberof UiElements
  */
-class JsonTable extends JsonTableMixin(PolymerElement) {
-  static get template() {
-    return html`
-    <style>
-    :host {
+class JsonTable extends JsonTableMixin(LitElement) {
+  static get styles() {
+    return css`:host {
       display: block;
-      @apply --json-table;
     }
 
     .array-wrapper {
-      display: -ms-flexbox;
-      display: -webkit-flex;
       display: flex;
-      -ms-flex-direction: row;
-      -webkit-flex-direction: row;
       flex-direction: row;
       overflow-y: hidden;
       overflow-x: auto;
-      @apply --json-table-main-array-wrapper;
     }
 
     json-table-array {
-      -ms-flex: 1 1 0.000000001px;
-      -webkit-flex: 1;
       flex: 1;
-      -webkit-flex-basis: 0.000000001px;
       flex-basis: 0.000000001px;
     }
 
     .actions-panel {
-      display: -ms-flexbox;
-      display: -webkit-flex;
       display: flex;
-      -ms-flex-direction: row;
-      -webkit-flex-direction: row;
       flex-direction: row;
-      -ms-flex-align: center;
-      -webkit-align-items: center;
       align-items: center;
+    }`;
+  }
 
-      @apply --response-raw-viewer-action-bar;
-    }
-    </style>
+  render() {
+    const { _renderJson, paginate, page, itemsPerPage } = this;
+    return html`
     <div class="actions-panel">
       <slot name="content-action"></slot>
     </div>
-    <template is="dom-if" if="[[isArray(_renderJson)]]" restamp="true">
-      <div class="array-wrapper">
-        <json-table-array
-          json="[[_renderJson]]"
-          paginate="[[paginate]]"
-          page="[[page]]"
-          items-per-page="[[itemsPerPage]]"></json-table-array>
-      </div>
-    </template>
-    <template is="dom-if" if="[[isObject(_renderJson)]]" restamp="true">
-      <json-table-object
-        json="[[_renderJson]]"
-        paginate="[[paginate]]"
-        page="[[page]]"
-        items-per-page="[[itemsPerPage]]"></json-table-object>
-    </template>`;
+    ${Array.isArray(_renderJson) ? html`<div class="array-wrapper">
+      <json-table-array
+        .json="${_renderJson}"
+        ?paginate="${paginate}"
+        .page="${page}"
+        .itemsPerPage="${itemsPerPage}"></json-table-array>
+    </div>` : undefined}
+    ${this.isObject(_renderJson) ? html`<json-table-object
+      .json="${_renderJson}"
+      ?paginate="${paginate}"
+      .page="${page}"
+      .itemsPerPage="${itemsPerPage}"></json-table-object>` : undefined}`;
   }
 
-  static get is() {
-    return 'json-table';
-  }
   static get properties() {
     return {
       /**
@@ -146,21 +122,37 @@ class JsonTable extends JsonTableMixin(PolymerElement) {
        * If provided data is type of string then it will use the `JSON.stringify` function to
        * create a JavaScript object from string.
        */
-      json: {
-        type: Object,
-        observer: '_jsonChanged'
-      },
+      json: { },
       // A copy of the `json` object so it can be altered by the element.
       _renderJson: Object,
-      /**
-       * Will be set to true if the passed `json` is a string and it's not valid JSON.
-       */
-      parserError: {
-        type: Boolean,
-        value: false,
-        readOnly: true
-      }
+
+      _parserError: { type: Boolean }
     };
+  }
+
+  get json() {
+    return this._json;
+  }
+
+  set json(value) {
+    const old = this._json;
+    if (old === value) {
+      return;
+    }
+    this._json = value;
+    this._jsonChanged(value);
+  }
+  /**
+   * Will be set to true if the passed `json` is a string and it's not valid JSON.
+   * @return {Boolean}
+   */
+  get parserError() {
+    return this._parserError;
+  }
+
+  constructor() {
+    super();
+    this._parserError = false;
   }
   /**
    * Handler for `json` attribute value change.
@@ -168,12 +160,13 @@ class JsonTable extends JsonTableMixin(PolymerElement) {
    * @param {Object|Array} json JSON object to render.
    */
   _jsonChanged(json) {
-    this._setParserError(false);
-    this.set('_renderJson', undefined);
+    this._parserError = false;
+    this._renderJson = undefined;
+
     if (!json) {
-      this.set('_renderJson', undefined);
       return;
     }
+
     if (typeof json === 'string') {
       try {
         json = JSON.parse(json);
@@ -181,7 +174,7 @@ class JsonTable extends JsonTableMixin(PolymerElement) {
         this._setRenderJson(json);
         return;
       } catch (e) {
-        this._setParserError(true);
+        this._parserError = true;
         return;
       }
     }
@@ -197,9 +190,13 @@ class JsonTable extends JsonTableMixin(PolymerElement) {
    * @param {Object|Array} json JSON object to render.
    */
   _setRenderJson(json) {
-    setTimeout(() => {
-      this.set('_renderJson', json);
+    if (this.__timer) {
+      clearTimeout(this.__timer);
+    }
+    this.__timer = setTimeout(() => {
+      this.__timer = undefined;
+      this._renderJson = json;
     }, 1);
   }
 }
-window.customElements.define(JsonTable.is, JsonTable);
+window.customElements.define('json-table', JsonTable);

@@ -24,7 +24,7 @@ change number of items at any time.
 
 ### Example
 ```html
-<json-table json="[...]" paginate items-per-page="15"></json-table>
+<json-table json="[...]" paginate itemsperpage="15"></json-table>
 ```
 
 ## Content actions
@@ -58,48 +58,63 @@ npm install --save @advanced-rest-client/json-table
 <html>
   <head>
     <script type="module">
-      import './node_modules/@advanced-rest-client/json-table/json-table.js';
+      import '@advanced-rest-client/json-table/json-table.js';
     </script>
   </head>
   <body>
-    <json-table></json-table>
+    <json-table paginate json="..."></json-table>
   </body>
 </html>
 ```
 
-### In a Polymer 3 element
+### In a LitElement
 
 ```js
-import {PolymerElement, html} from './node_modules/@polymer/polymer/polymer-element.js';
-import './node_modules/@advanced-rest-client/json-table/json-table.js';
+import { LitElement, html } from 'lit-element';
+import '@advanced-rest-client/json-table/json-table.js';
 
 class SampleElement extends PolymerElement {
-  static get template() {
+  render() {
     return html`
-    <json-table></json-table>
+    <json-table .json="${this.json}" paginate></json-table>
     `;
   }
 }
 customElements.define('sample-element', SampleElement);
 ```
 
-### Installation
+### In a Polymer 3 element
+
+```js
+import {PolymerElement, html} from '@polymer/polymer/polymer-element.js';
+import '@advanced-rest-client/json-table/json-table.js';
+
+class SampleElement extends PolymerElement {
+  static get template() {
+    return html`
+    <json-table json="[[json]]"></json-table>
+    `;
+  }
+}
+customElements.define('sample-element', SampleElement);
+```
+
+### Development
 
 ```sh
 git clone https://github.com/advanced-rest-client/json-table
-cd api-url-editor
+cd json-table
 npm install
-npm install -g polymer-cli
 ```
 
 ### Running the demo locally
 
 ```sh
-polymer serve --npm
-open http://127.0.0.1:<port>/demo/
+npm start
 ```
 
 ### Running the tests
+
 ```sh
-polymer test --npm
+npm test
 ```

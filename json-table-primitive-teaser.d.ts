@@ -12,7 +12,15 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-declare class JsonTablePrimitiveTeaser extends PolymerElement {
+import {LitElement, html, css} from 'lit-element';
+
+declare class JsonTablePrimitiveTeaser extends LitElement {
+  readonly _wrapper: any;
+
+  /**
+   * Container's max height when closed.
+   */
+  maxHeight: string|null|undefined;
 
   /**
    * If true then the whole value will be visible.
@@ -22,19 +30,16 @@ declare class JsonTablePrimitiveTeaser extends PolymerElement {
   /**
    * DOM change observer
    */
-  readonly observer: object|null|undefined;
+  _observer: object|null|undefined;
 
   /**
    * if true then the content overflows the max height area.
    */
   _isOverflow: boolean|null|undefined;
-
-  /**
-   * Container's max height when closed.
-   */
-  maxHeight: string|null|undefined;
+  constructor();
   connectedCallback(): void;
   disconnectedCallback(): void;
+  render(): any;
   _contentChanged(): void;
   toggle(e: any): void;
   _computeToggleLabel(opened: any): any;
@@ -47,5 +52,3 @@ declare global {
     "json-table-primitive-teaser": JsonTablePrimitiveTeaser;
   }
 }
-
-export {};

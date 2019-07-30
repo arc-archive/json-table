@@ -12,6 +12,8 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
+import {LitElement, html, css} from 'lit-element';
+
 import {JsonTableMixin} from './json-table-mixin.js';
 
 declare namespace UiElements {
@@ -45,7 +47,8 @@ declare namespace UiElements {
     /**
      * data model created from the `json` attribute.
      */
-    readonly display: any[]|null|undefined;
+    _display: any[]|null|undefined;
+    render(): any;
 
     /**
      * Creates a data model from the JSON object.
@@ -53,10 +56,10 @@ declare namespace UiElements {
      * by child elements.
      *
      * TODO: This should be a deep data observer to update only the portion of the model that
-     * actually has changed.
+     * actually had changed.
      */
-    _jsonChanged(json: any): any;
-    _computeItemClass(record: any): any;
+    _jsonChanged(json: object|null): void;
+    _computeItemClass(item: any): any;
   }
 }
 

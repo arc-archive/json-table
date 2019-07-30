@@ -12,6 +12,8 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
+import {LitElement, html, css} from 'lit-element';
+
 import {JsonTableMixin} from './json-table-mixin.js';
 
 declare namespace UiElements {
@@ -19,10 +21,10 @@ declare namespace UiElements {
   /**
    * A table view from the JSON structure.
    *
-   * The element will render a table and / or list view from the JSON object.
-   * If give JSON is am array it will display a table. For objects it will display list view.
+   * The element renders a table and / or list view from a JSON object.
+   * If JSON is an array it renders a table view. For objects it renders a list view.
    *
-   * Complex object are represented as a embedded view of the list / table inside the parent object
+   * Complex object are represented as an embedded view of a list or table inside the parent object
    * representation. That may create very complex structure and lead to performance issues when computing
    * data model and building the DOM. Therefore the element will only build the first level of the view.
    * If the object / array contains other objects / arrays it will show only a button to display embeded
@@ -43,11 +45,14 @@ declare namespace UiElements {
    * display content actions that is relevant in context of the content displayed
    * below the buttons. It should be icon buttons list or just buttons added to this view.
    *
-   * Buttons must have `content-action` property set to be included to this view.
+   * Buttons must have `slot="content-action"` attributte set to be included to this view.
    *
    * ```html
    * <json-table json='{"json": "test"}'>
-   *  <paper-icon-button slot="content-action" title="Copy content to clipboard" icon="arc:content-copy"></paper-icon-button>
+   *  <paper-icon-button
+   *    slot="content-action"
+   *    title="Copy content to clipboard"
+   *    icon="arc:content-copy"></paper-icon-button>
    * </json-table>
    * ```
    *
@@ -73,17 +78,19 @@ declare namespace UiElements {
      * If provided data is type of string then it will use the `JSON.stringify` function to
      * create a JavaScript object from string.
      */
-    json: object|null|undefined;
+    json: any;
+
+    /**
+     * Will be set to true if the passed `json` is a string and it's not valid JSON.
+     */
+    readonly parserError: Boolean|null;
 
     /**
      * A copy of the `json` object so it can be altered by the element.
      */
     _renderJson: object|null|undefined;
-
-    /**
-     * Will be set to true if the passed `json` is a string and it's not valid JSON.
-     */
-    readonly parserError: boolean|null|undefined;
+    _parserError: boolean|null|undefined;
+    render(): any;
 
     /**
      * Handler for `json` attribute value change.

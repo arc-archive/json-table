@@ -11,49 +11,44 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import {FlattenedNodesObserver} from '../../@polymer/polymer/lib/utils/flattened-nodes-observer.js';
+import { LitElement, html, css } from 'lit-element';
 
-class JsonTablePrimitiveTeaser extends PolymerElement {
-  static get template() {
-    return html`
-    <style>
-      :host {
-        display: block;
-        margin: 4px 0;
-      }
+class JsonTablePrimitiveTeaser extends LitElement {
+  static get styles() {
+    return css`:host {
+      display: block;
+      margin: 4px 0;
+    }
 
-      :host([opened]) .primitive-wrapper {
-        max-height: none;
-      }
+    :host([opened]) .primitive-wrapper {
+      max-height: none;
+    }
 
-      .primitive-wrapper {
-        max-height: var(--json-table-primitive-teaser-max-heigth, 160px);
-        overflow: hidden;
-        padding: 4px 0;
-      }
+    .primitive-wrapper {
+      max-height: var(--json-table-primitive-teaser-max-heigth, 160px);
+      overflow: hidden;
+      padding: 4px 0;
+    }
 
-      *[hidden] {
-        display: none !important;
-      }
+    *[hidden] {
+      display: none !important;
+    }
 
-      .toggle {
-        font-size: inherit;
-        color: inherit;
-        margin-top: 12px;
-        display: inline-block;
-      }
-    </style>
-    <div class="primitive-wrapper" id="wrapper">
-      <slot id="slot">
-    </slot></div>
-    <a href="#" class="toggle" hidden\$="[[!_isOverflow]]" on-tap="toggle">[[_computeToggleLabel(opened)]]</a>
-`;
+    .toggle {
+      font-size: inherit;
+      color: inherit;
+      margin-top: 12px;
+      display: inline-block;
+    }`;
   }
 
-  static get is() {
-    return 'json-table-primitive-teaser';
+  render() {
+    const { _isOverflow, opened } = this;
+    return html`
+    <div class="primitive-wrapper">
+      <slot></slot>
+    </div>
+    <a href="#" class="toggle" ?hidden="${!_isOverflow}" @click="${this.toggle}">${this._computeToggleLabel(opened)}</a>`;
   }
 
   static get properties() {
@@ -61,50 +56,57 @@ class JsonTablePrimitiveTeaser extends PolymerElement {
       // If true then the whole value will be visible.
       opened: {
         type: Boolean,
-        value: false,
-        reflectToAttribute: true
+        reflect: true
       },
       // DOM change observer
-      observer: {
-        readOnly: true,
-        type: Object
-      },
+      _observer: { type: Object },
       // if true then the content overflows the max height area.
-      _isOverflow: {
-        type: Boolean,
-        value: false
-      },
+      _isOverflow: { type: Boolean },
       // Container's max height when closed.
-      maxHeight: {
-        type: String,
-        value: '160px',
-        observer: '_maxHeightChanged'
-      }
+      maxHeight: { type: String }
     };
+  }
+
+  get _wrapper() {
+    return this.shadowRoot.querySelector('.primitive-wrapper');
+  }
+
+  get maxHeight() {
+    return this._maxHeight;
+  }
+
+  set maxHeight(value) {
+    this._maxHeight = value;
+    this._maxHeightChanged(value);
   }
 
   constructor() {
     super();
     this._contentChanged = this._contentChanged.bind(this);
+    this.opened = false;
+    this._isOverflow = false;
+    this.maxHeight = '160px';
   }
 
   connectedCallback() {
     super.connectedCallback();
-    const observer = new FlattenedNodesObserver(this.$.slot, this._contentChanged);
-    this._setObserver(observer);
+    const config = { attributes: false, childList: true, subtree: true };
+    this._observer = new MutationObserver(this._contentChanged);
+    this._observer.observe(this, config);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     if (this._observer) {
       this._observer.disconnect();
-      this._setObserver(undefined);
+      this._observer = undefined;
     }
   }
 
   _contentChanged() {
-    const oh = this.$.wrapper.offsetHeight; // current height
-    const sh = this.$.wrapper.scrollHeight; // content height
+    const wrap = this._wrapper;
+    const oh = wrap.offsetHeight; // current height
+    const sh = wrap.scrollHeight; // content height
     this._isOverflow = sh > oh;
   }
 
@@ -119,9 +121,7 @@ class JsonTablePrimitiveTeaser extends PolymerElement {
 
   _maxHeightChanged(maxHeight) {
     maxHeight = maxHeight || '160px';
-    this.updateStyles({
-      '--json-table-primitive-teaser-max-heigth': maxHeight
-    });
+    this.style.setProperty('--json-table-primitive-teaser-max-heigth', maxHeight);
   }
 }
-window.customElements.define(JsonTablePrimitiveTeaser.is, JsonTablePrimitiveTeaser);
+window.customElements.define('json-table-primitive-teaser', JsonTablePrimitiveTeaser);

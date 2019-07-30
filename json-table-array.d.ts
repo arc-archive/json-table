@@ -12,6 +12,8 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
+import {LitElement, html, css} from 'lit-element';
+
 import {JsonTableMixin} from './json-table-mixin.js';
 
 declare namespace UiElements {
@@ -24,14 +26,6 @@ declare namespace UiElements {
    * ```html
    * <json-table-array json="[...]"></json-table-array>
    * ```
-   *
-   * ### Styling
-   *
-   * `<json-table>` provides the following custom properties and mixins for styling:
-   *
-   * Custom property | Description | Default
-   * ----------------|-------------|----------
-   * `--json-table-array` | Mixin applied to the element | `{}`
    */
   class JsonTableArray extends
     JsonTableMixin(
@@ -41,36 +35,38 @@ declare namespace UiElements {
      * An object to render.
      */
     json: any[]|null|undefined;
+    readonly columns: any;
+    paginate: any;
+    page: any;
+    itemsPerPage: any;
 
     /**
      * List of computed column names
      */
-    readonly columns: any[]|null|undefined;
-
-    /**
-     * True if columns list is available.
-     */
-    readonly hasColumns: boolean|null|undefined;
+    _columns: any[]|null|undefined;
 
     /**
      * data model created from the `json` attribute.
      */
-    readonly display: any[]|null|undefined;
+    _display: any[]|null|undefined;
 
     /**
      * A label for start index in pagination (1-based)
      */
-    readonly startItemLabel: number|null|undefined;
+    _startItemLabel: number|null|undefined;
 
     /**
      * A label for end index in pagination (1-based)
      */
-    readonly endItemLabel: number|null|undefined;
+    _endItemLabel: number|null|undefined;
 
     /**
      * A label for end index in pagination (1-based)
      */
-    readonly maxItemsLabel: number|null|undefined;
+    _maxItemsLabel: number|null|undefined;
+    _paginationTemplate(): any;
+    _dispayTemplate(display: any, hasColumns: any, columns: any): any;
+    render(): any;
 
     /**
      * Creates a data model from the `json` property.
@@ -78,19 +74,14 @@ declare namespace UiElements {
      * TODO: This should be a deep data observer to update only the portion of the model that
      * actually has changed.
      */
-    _jsonChanged(json: any): void;
-    _computeDisplay(json: any, paginate: any, page: any, itemsPerPage: any): void;
+    _jsonChanged(json: any[]|null): void;
+    _computeDisplay(): void;
 
     /**
      * Computes the list of column names for the table.
      * It will contain all properties keys fond in the array.
      */
-    _computeColumns(json: any): any;
-
-    /**
-     * Sets the `hasColumns` property when columns array change
-     */
-    _columnsChanged(columns: any): void;
+    _computeColumns(json: any[]|null): Array<String|null>|null;
 
     /**
      * Checks if passed `item` is a primitive
@@ -107,7 +98,7 @@ declare namespace UiElements {
      * This will do nothing if pagination isn't enabled or there's no next page of results to
      * display.
      */
-    nextPage(): any;
+    nextPage(): Boolean|null;
 
     /**
      * When pagination is enabled this will decrease page number.
@@ -125,6 +116,7 @@ declare namespace UiElements {
     _isDisabedPrevious(page: Number|null): Boolean|null;
     _isDisabedNext(maxItemsLabel: any, endItemLabel: any): any;
     _computeValueSize(item: any, column: any): any;
+    _ippHandler(e: any): void;
   }
 }
 

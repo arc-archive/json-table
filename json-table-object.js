@@ -11,9 +11,8 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import {JsonTableMixin} from './json-table-mixin.js';
+import { LitElement, html, css } from 'lit-element';
+import { JsonTableMixin } from './json-table-mixin.js';
 import './json-table-array.js';
 /**
  * An element that displays object structure.
@@ -32,157 +31,150 @@ import './json-table-array.js';
  * ----------------|-------------|----------
  * `--json-table-object` | Mixin applied to the element | `{}`
  *
- * @polymer
  * @customElement
  * @appliesMixin JsonTableMixin
  * @memberof UiElements
  */
-class JsonTableObject extends JsonTableMixin(PolymerElement) {
-  static get template() {
-    return html`
-    <style>
-      :host {
-        display: block;
-        --json-table-property-name-width: auto;
-      }
+class JsonTableObject extends JsonTableMixin(LitElement) {
+  static get styles() {
+    return css`:host {
+      display: block;
+      --json-table-property-name-width: auto;
+    }
 
-      .item {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -ms-flex-direction: row;
-        -webkit-flex-direction: row;
-        flex-direction: row;
+    .item {
+      display: flex;
+      flex-direction: row;
+      min-height: 24px;
+      padding: 8px 0;
+      border-bottom: 1px var(--json-table-item-border-bottom-color, rgba(0, 0, 0, 0.12)) solid;
+    }
 
-        min-height: 24px;
-        padding: 8px 0;
-        border-bottom: 1px var(--json-table-item-border-bottom-color, rgba(0, 0, 0, 0.12)) solid;
-      }
+    .item.array,
+    .item.object {
+      display: flex;
+      flex-direction: column;
+    }
 
-      .item.array,
-      .item.object {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
+    .item:last-of-type {
+      border-bottom: none;
+    }
 
-        -ms-flex-direction: column;
-        -webkit-flex-direction: column;
-        flex-direction: column;
-      }
+    .property-name {
+      color: var(--json-table-list-property-name-color, #000);
+      word-break: break-all;
+      margin-right: 12px;
+      padding-right: 12px;
+      white-space: normal;
+      word-break: normal;
+      margin: 8px 12px 8px 0;
+    }
 
-      .item:last-of-type {
-        border-bottom: none;
-      }
+    .property-value {
+      flex: 1;
+      word-wrap: normal;
+      overflow: auto;
+    }
 
-      .property-name {
-        color: var(--json-table-list-property-name-color, #000);
-        word-break: break-all;
-        margin-right: 12px;
-        padding-right: 12px;
-        white-space: normal;
-        word-break: normal;
-        margin: 8px 12px 8px 0;
-      }
+    .object .property-value,
+    .array .property-value {
+      overflow: visible;
+    }
 
-      .property-value {
-        @apply --layout-flex;
-        word-wrap: normal;
-        overflow: auto;
+    .object .property-value {
+      margin-left: var(--json-table-indent-size, 12px);
+    }
 
-      }
+    .object .property-name,
+    .array .property-name  {
+      font-weight: 600;
+      width: auto;
+      min-width: auto;
+    }
 
-      .object .property-value,
-      .array .property-value {
-        overflow: visible;
-      }
+    json-table-object,
+    json-table-array {
+      overflow: auto;
+    }
 
-      .object .property-value {
-        margin-left: var(--json-table-indent-size, 12px);
-      }
+    :host > .object > .property-name,
+    :host > .array > .property-name {
+      color: var(--json-table-list-property-name-color, #000);
+    }
 
-      .object .property-name,
-      .array .property-name  {
-        font-weight: 600;
-        width: auto;
-        min-width: auto;
-      }
+    .enum-value {
+      display: block;
+    }
 
-      json-table-object,
-      json-table-array {
-        overflow: auto;
-      }
+    .enum-value::after {
+      content: ',';
+      color: rgba(0, 0, 0, 0.54);
+    }
 
-      :host > .object > .property-name,
-      :host > .array > .property-name {
-        color: var(--json-table-list-property-name-color, #000);
-      }
+    .enum-value:last-of-type::after {
+      content: ''
+    }
 
-      .enum-value {
-        display: block;
-      }
-
-      .enum-value::after {
-        content: ',';
-        color: rgba(0, 0, 0, 0.54);
-      }
-
-      .enum-value:last-of-type::after {
-        content: ''
-      }
-
-      .object-label,
-      .array-label {
-        color: var(--json-table-complex-name-label-color, #58595A);
-      }
-    </style>
-    <template is="dom-repeat" items="[[display]]">
-      <div class\$="item [[_computeItemClass(item.*)]]">
-        <div class="property-name">
-          [[item.key]]
-          <template is="dom-if" if="[[item.isObject]]">
-            <span class="object-label">(Object)</span>
-          </template>
-          <template is="dom-if" if="[[_isEnumOrArray(item.*)]]">
-            <span class="array-label">(Array [[_computeArraySize(item.*)]])</span>
-          </template>
-        </div>
-        <div class="property-value">
-          <template is="dom-if" if="[[item.isObject]]">
-            <json-table-object json="[[item.value]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-object>
-          </template>
-          <template is="dom-if" if="[[item.isEnum]]">
-            <template is="dom-repeat" items="[[item.value]]">
-              <span class="enum-value">[[item]]</span>
-            </template>
-          </template>
-          <template is="dom-if" if="[[item.isArray]]">
-            <div class="array-wrapper">
-              <json-table-array json="[[item.value]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-array>
-            </div>
-          </template>
-          <template is="dom-if" if="[[item.isPrimitive]]">
-            <json-table-primitive-teaser class="primitive-value">[[item.value]]</json-table-primitive-teaser>
-          </template>
-        </div>
-      </div>
-    </template>
-`;
+    .object-label,
+    .array-label {
+      color: var(--json-table-complex-name-label-color, #58595A);
+    }`;
   }
 
-  /* global JsonTableMixin */
-  static get is() { return 'json-table-object'; }
+  render() {
+    const { _display, paginate, page, itemsPerPage } = this;
+
+    if (!(_display && _display.length)) {
+      return;
+    }
+    return html`
+    ${_display.map((item) => html`<div class="item ${this._computeItemClass(item)}">
+      <div class="property-name">
+        ${item.key}
+        ${item.isObject ? html`<span class="object-label">(Object)</span>` : undefined}
+        ${this._isEnumOrArray(item) ? html`<span class="array-label">(Array ${this._computeArraySize(item)})</span>` : undefined}
+      </div>
+      <div class="property-value">
+        ${item.isObject ? html`<json-table-object
+          .json="${item.value}"
+          ?paginate="${paginate}"
+          .page="${page}"
+          .itemsPerPage="${itemsPerPage}"></json-table-object>` : undefined}
+        ${item.isEnum ?
+          item.value.map((item) => html`<span class="enum-value">${item}</span>`) :
+          undefined}
+        ${item.isArray ? html`<div class="array-wrapper">
+          <json-table-array
+            .json="${item.value}"
+            ?paginate="${paginate}"
+            .page="${page}"
+            .itemsPerPage="${itemsPerPage}"></json-table-array>
+        </div>` : undefined}
+
+        ${item.isPrimitive ? html`<json-table-primitive-teaser class="primitive-value">${item.value}</json-table-primitive-teaser>` : undefined}
+      </div>
+    </div>`)}`;
+  }
+
+  get json() {
+    return this._json;
+  }
+
+  set json(value) {
+    const old = this._json;
+    if (old === value) {
+      return;
+    }
+    this._json = value;
+    this._jsonChanged(value);
+  }
+
   static get properties() {
     return {
       // An object to render.
-      json: {
-        type: Object,
-        observer: '_jsonChanged'
-      },
+      json: { type: Object },
       // data model created from the `json` attribute.
-      display: {
-        type: Array,
-        readOnly: true
-      }
+      _display: { type: Array }
     };
   }
   /**
@@ -191,22 +183,21 @@ class JsonTableObject extends JsonTableMixin(PolymerElement) {
    * by child elements.
    *
    * TODO: This should be a deep data observer to update only the portion of the model that
-   * actually has changed.
+   * actually had changed.
+   *
+   * @param {Object} json
    */
   _jsonChanged(json) {
     if (!json) {
-      return this._setDisplay(undefined);
+      this._display = undefined;
+      return;
     }
     const names = Object.keys(json);
     const model = names.map((key) => this.getPropertyModel(key, json[key]));
-    this._setDisplay(model);
+    this._display = model;
   }
 
-  _computeItemClass(record) {
-    if (!record || !record.base) {
-      return;
-    }
-    const item = record.base;
+  _computeItemClass(item) {
     if (item.isArray/* || item.isEnum*/) {
       return 'array';
     }
@@ -218,4 +209,4 @@ class JsonTableObject extends JsonTableMixin(PolymerElement) {
     }
   }
 }
-window.customElements.define(JsonTableObject.is, JsonTableObject);
+window.customElements.define('json-table-object', JsonTableObject);

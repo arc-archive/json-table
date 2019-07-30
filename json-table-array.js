@@ -11,14 +11,13 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import {JsonTableMixin} from './json-table-mixin.js';
-import '../../@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '../../@advanced-rest-client/arc-icons/arc-icons.js';
-import '../../@polymer/paper-icon-button/paper-icon-button.js';
-import '../../@polymer/paper-item/paper-item.js';
-import '../../@polymer/paper-listbox/paper-listbox.js';
+import { LitElement, html, css } from 'lit-element';
+import { JsonTableMixin } from './json-table-mixin.js';
+import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
+import '@advanced-rest-client/arc-icons/arc-icons.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/paper-item/paper-item.js';
+import '@polymer/paper-listbox/paper-listbox.js';
 import './json-table-object.js';
 import './json-table-primitive-teaser.js';
 /**
@@ -30,280 +29,254 @@ import './json-table-primitive-teaser.js';
  * <json-table-array json="[...]"></json-table-array>
  * ```
  *
- * ### Styling
  *
- * `<json-table>` provides the following custom properties and mixins for styling:
- *
- * Custom property | Description | Default
- * ----------------|-------------|----------
- * `--json-table-array` | Mixin applied to the element | `{}`
- *
- * @polymer
  * @customElement
  * @appliesMixin JsonTableMixin
  * @memberof UiElements
  */
-class JsonTableArray extends JsonTableMixin(PolymerElement) {
-  static get template() {
-    return html`
-    <style>
-     :host {
-      display: block;
+class JsonTableArray extends JsonTableMixin(LitElement) {
+  static get styles() {
+    return css`:host {
+     display: block;
+     font-size: var(--arc-font-body1-font-size);
+     font-weight: var(--arc-font-body1-font-weight);
+     line-height: var(--arc-font-body1-line-height);
+   }
 
-      --table-actions-label-color: rgba(0, 0, 0, 0.74);
-      --table-actions-label-font-size: 14px;
+   paper-dropdown-menu {
+     width: 70px;
+     text-align: right;
+   }
 
-      --paper-dropdown-menu: {
-        width: 70px;
-      };
+   table {
+     border-collapse: collapse;
+   }
 
-      --paper-dropdown-menu-input: {
-        text-align: right;
-      };
+   th {
+     white-space: nowrap;
+     text-align: left;
+     padding: 8px 16px;
+     font-size: 14px;
+     color: var(--json-table-array-header-color, #58595A);
+     border-bottom: 3px #e8e9ea solid;
+   }
 
-      --paper-input-container-underline: {
-        border-bottom-color: transparent;
-      };
+   td {
+     min-width: 60px;
+     padding: 8px 16px;
+     word-break: normal;
+     vertical-align: top;
+     border-bottom: 1px #E8E9EA solid;
+     font-size: 14px;
+     color: var(--json-table-array-body-color, #121314);
+   }
 
-      --paper-input-container-underline-focus: {
-        border-bottom-color: transparent;
-      };
-    }
+   *[hidden] {
+     display: none !important;
+   }
 
-    paper-dropdown-menu {
-      --paper-input-container-input: {
-        @apply --arc-font-body1;
-        color: var(--table-actions-label-color);
-        font-size: var(--table-actions-label-font-size);
-      };
-    }
+   .enum-value {
+     display: block;
+     padding: 4px 0;
+     margin: 4px 0;
+   }
 
-    table {
-      border-collapse: collapse;
-    }
+   .enum-value::after {
+     content: ',';
+     color: rgba(0, 0, 0, 0.54);
+   }
 
-    th {
-      white-space: nowrap;
-      text-align: left;
-      padding: 8px 16px;
-      @apply --arc-font-body1;
-      font-size: 14px;
-      color: var(--json-table-array-header-color, #58595A);
-      border-bottom: 3px #e8e9ea solid;
-    }
+   .enum-value:last-of-type::after {
+     content: ''
+   }
 
-    td {
-      min-width: 60px;
-      padding: 8px 16px;
-      word-break: normal;
-      vertical-align: top;
-      border-bottom: 1px #E8E9EA solid;
-      @apply --arc-font-body1;
-      font-size: 14px;
-      color: var(--json-table-array-body-color, #121314);
-    }
+   .toggle-view {
+     font-size: inherit;
+     color: inherit;
+     margin-top: 12px;
+     display: block;
+     white-space: nowrap;
+   }
 
-    *[hidden] {
-      display: none !important;
-    }
+   .toggle-view.active {
+     display: inline-block;
+     margin-top: 0;
+   }
 
-    .enum-value {
-      display: block;
-      padding: 4px 0;
-      margin: 4px 0;
-    }
+   .table-actions {
+     height: 56px;
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     font-size: var(--table-actions-label-font-size);
+     color: var(--table-actions-label-color);
+   }
 
-    .enum-value::after {
-      content: ',';
-      color: rgba(0, 0, 0, 0.54);
-    }
-
-    .enum-value:last-of-type::after {
-      content: ''
-    }
-
-    .toggle-view {
-      font-size: inherit;
-      color: inherit;
-      margin-top: 12px;
-      display: block;
-      white-space: nowrap;
-    }
-
-    .toggle-view.active {
-      display: inline-block;
-      margin-top: 0;
-    }
-
-    .table-actions {
-      height: 56px;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -ms-flex-direction: row;
-      -webkit-flex-direction: row;
-      flex-direction: row;
-      -ms-flex-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-
-      @apply --arc-font-body1;
-      font-size: var(--table-actions-label-font-size);
-      color: var(--table-actions-label-color);
-    }
-
-    .page-items-count-selector,
-    .page-count {
-      margin-right: 32px;
-      height: 56px;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -ms-flex-direction: row;
-      -webkit-flex-direction: row;
-      flex-direction: row;
-      -ms-flex-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-    }
-    </style>
-    <template is="dom-if" if="[[paginate]]">
-      <div class="table-actions">
-        <div class="page-items-count-selector">
-          <span class="page-items-count-label">Items per page</span>
-          <paper-dropdown-menu no-label-float="">
-            <paper-listbox slot="dropdown-content" attr-for-selected="data-value" selected="{{itemsPerPage}}">
-              <paper-item data-value="10">10</paper-item>
-              <paper-item data-value="15">15</paper-item>
-              <paper-item data-value="20">20</paper-item>
-              <paper-item data-value="25">25</paper-item>
-              <paper-item data-value="50">50</paper-item>
-              <paper-item data-value="100">100</paper-item>
-            </paper-listbox>
-          </paper-dropdown-menu>
-        </div>
-        <div class="page-count">
-          [[startItemLabel]]-[[endItemLabel]] of [[maxItemsLabel]]
-        </div>
-        <div class="page-paginators">
-          <paper-icon-button icon="arc:chevron-left" on-tap="previousPage" disabled="[[_isDisabedPrevious(page)]]"></paper-icon-button>
-          <paper-icon-button icon="arc:chevron-right" on-tap="nextPage" disabled="[[_isDisabedNext(maxItemsLabel, endItemLabel)]]"></paper-icon-button>
-        </div>
-      </div>
-    </template>
-    <table>
-      <template is="dom-if" if="[[hasColumns]]">
-        <thead>
-          <tr>
-            <template is="dom-repeat" items="[[columns]]">
-              <th>[[item]]</th>
-            </template>
-          </tr>
-        </thead>
-      </template>
-      <tbody>
-        <template is="dom-repeat" items="[[display]]" as="displayItem" initial-count="10">
-          <tr>
-            <template is="dom-repeat" items="[[columns]]" as="column">
-              <td>
-                <template is="dom-if" if="[[_isPrimitive(displayItem, column)]]">
-                  <json-table-primitive-teaser class="primitive-value">[[_getValue(displayItem, column)]]</json-table-primitive-teaser>
-                </template>
-                <template is="dom-if" if="[[_isObject(displayItem, column)]]">
-                  <json-table-object json="[[_getValue(displayItem, column)]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-object>
-                </template>
-                <template is="dom-if" if="[[_isEnum(displayItem, column)]]">
-                  <template is="dom-repeat" items="[[_getValue(displayItem, column)]]">
-                    <span class="enum-value">[[item]]</span>
-                  </template>
-                </template>
-                <template is="dom-if" if="[[_isArray(displayItem, column)]]" restamp="true">
-                  <span class="object-info"><span class="object-label" array="">Array ([[_computeValueSize(displayItem, column)]])</span> <a href="#" class="toggle-view" data-target="array" on-tap="_toggleItem">show array</a></span>
-                  <template is="dom-if" if="[[false]]" array="">
-                    <json-table-array json="[[_getValue(displayItem, column)]]" paginate="[[paginate]]" page="[[page]]" items-per-page="[[itemsPerPage]]"></json-table-array>
-                  </template>
-                </template>
-              </td>
-            </template>
-          </tr>
-        </template>
-      </tbody>
-    </table>
-    <template is="dom-if" if="[[paginate]]">
-      <div class="table-actions">
-        <div class="page-items-count-selector">
-          <span class="page-items-count-label">Items per page</span>
-          <paper-dropdown-menu no-label-float="">
-            <paper-listbox slot="dropdown-content" attr-for-selected="data-value" selected="{{itemsPerPage}}">
-              <paper-item data-value="10">10</paper-item>
-              <paper-item data-value="15">15</paper-item>
-              <paper-item data-value="20">20</paper-item>
-              <paper-item data-value="25">25</paper-item>
-              <paper-item data-value="50">50</paper-item>
-              <paper-item data-value="100">100</paper-item>
-            </paper-listbox>
-          </paper-dropdown-menu>
-        </div>
-        <div class="page-count">
-          [[startItemLabel]]-[[endItemLabel]] of [[maxItemsLabel]]
-        </div>
-        <div class="page-paginators">
-          <paper-icon-button icon="arc:chevron-left" on-tap="previousPage" disabled="[[_isDisabedPrevious(page)]]"></paper-icon-button>
-          <paper-icon-button icon="arc:chevron-right" on-tap="nextPage" disabled="[[_isDisabedNext(maxItemsLabel, endItemLabel)]]"></paper-icon-button>
-        </div>
-      </div>
-    </template>
-`;
+   .page-items-count-selector,
+   .page-count {
+     margin-right: 32px;
+     height: 56px;
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+   }`;
   }
 
-  /* global JsonTableMixin */
-  static get is() { return 'json-table-array'; }
+  _paginationTemplate() {
+    const { paginate, itemsPerPage, _startItemLabel, _endItemLabel, _maxItemsLabel, page } = this;
+    if (!paginate) {
+      return;
+    }
+    return html`<div class="table-actions">
+      <div class="page-items-count-selector">
+        <span class="page-items-count-label">Items per page</span>
+        <paper-dropdown-menu no-label-float>
+          <paper-listbox slot="dropdown-content" attr-for-selected="data-value" .selected="${itemsPerPage}" @selected-changed="${this._ippHandler}">
+            <paper-item data-value="10">10</paper-item>
+            <paper-item data-value="15">15</paper-item>
+            <paper-item data-value="20">20</paper-item>
+            <paper-item data-value="25">25</paper-item>
+            <paper-item data-value="50">50</paper-item>
+            <paper-item data-value="100">100</paper-item>
+          </paper-listbox>
+        </paper-dropdown-menu>
+      </div>
+      <div class="page-count">
+        ${_startItemLabel}-${_endItemLabel} of ${_maxItemsLabel}
+      </div>
+      <div class="page-paginators">
+        <paper-icon-button icon="arc:chevron-left" @click="${this.previousPage}" ?disabled="${this._isDisabedPrevious(page)}"></paper-icon-button>
+        <paper-icon-button icon="arc:chevron-right" @click="${this.nextPage}" ?disabled="${this._isDisabedNext(_maxItemsLabel, _endItemLabel)}"></paper-icon-button>
+      </div>
+    </div>`;
+  }
+
+  _dispayTemplate(display, hasColumns, columns) {
+    const { paginate, page, itemsPerPage } = this;
+    return display.map((displayItem) => html`<tr>
+      ${hasColumns ? columns.map((column) => html`<td>
+        ${this._isPrimitive(displayItem, column) ?
+          html`<json-table-primitive-teaser class="primitive-value">${this._getValue(displayItem, column)}</json-table-primitive-teaser>` :
+          undefined}
+        ${this._isObject(displayItem, column) ?
+          html`<json-table-object
+            .json="${this._getValue(displayItem, column)}"
+            ?paginate="${paginate}"
+            .page="${page}"
+            .itemsPerPage="${itemsPerPage}"></json-table-object>` :
+          undefined}
+        ${this._isEnum(displayItem, column) ?
+          this._getValue(displayItem, column).map((item) => html`<span class="enum-value">${item}</span>`) :
+          undefined}
+
+        ${this._isArray(displayItem, column) ? html`<span class="object-info">
+          <span class="object-label" array="">Array (${this._computeValueSize(displayItem, column)})</span>
+          <a href="#" class="toggle-view" data-target="array" @click="${this._toggleItem}">show array</a></span>
+          <json-table-array
+            hidden
+            .json="${this._getValue(displayItem, column)}"
+            ?paginate="${paginate}"
+            .page="${page}"
+            .itemsPerPage="${itemsPerPage}"></json-table-array>` : undefined}
+      </td>`) : undefined}
+    </tr>`);
+  }
+
+  render() {
+    const { _columns, _display } = this;
+    const hasColumns = !!(_columns && _columns.length);
+    const hasDisplay = !!(_display && _display.length);
+
+    return html`
+    ${this._paginationTemplate()}
+    <table>
+      ${hasColumns ? html`<thead>
+        <tr>
+        ${_columns.map((item) => html`<th>${item}</th>`)}
+        </tr>
+      </thead>` : undefined}
+      <tbody>
+        ${hasDisplay ? this._dispayTemplate(_display, hasColumns, _columns) : undefined}
+      </tbody>
+    </table>
+    ${this._paginationTemplate()}`;
+  }
+
   static get properties() {
     return {
       // An object to render.
-      json: {
-        type: Array,
-        observer: '_jsonChanged'
-      },
+      json: { type: Array },
       // List of computed column names
-      columns: {
-        type: Array,
-        readOnly: true,
-        observer: '_columnsChanged'
-      },
-      // True if columns list is available.
-      hasColumns: {
-        type: Boolean,
-        value: false,
-        readOnly: true
-      },
+      _columns: { type: Array },
       // data model created from the `json` attribute.
-      display: {
-        type: Array,
-        readOnly: true
-      },
+      _display: { type: Array },
       // A label for start index in pagination (1-based)
-      startItemLabel: {
-        type: Number,
-        readOnly: true
-      },
+      _startItemLabel: { type: Number },
       // A label for end index in pagination (1-based)
-      endItemLabel: {
-        type: Number,
-        readOnly: true
-      },
+      _endItemLabel: { type: Number },
       // A label for end index in pagination (1-based)
-      maxItemsLabel: {
-        type: Number,
-        readOnly: true
-      }
+      _maxItemsLabel: { type: Number }
     };
   }
 
-  static get observers() {
-    return [
-      '_computeDisplay(json, paginate, page, itemsPerPage)'
-    ];
+  get json() {
+    return this._json;
+  }
+
+  set json(value) {
+    const old = this._json;
+    if (old === value) {
+      return;
+    }
+    this._json = value;
+    this._jsonChanged(value);
+    this._computeDisplay();
+  }
+
+  get columns() {
+    return this._columns;
+  }
+
+  get paginate() {
+    return this._paginate;
+  }
+
+  set paginate(value) {
+    const old = this._paginate;
+    if (old === value) {
+      return;
+    }
+    this._paginate = value;
+    this.requestUpdate('paginate', old);
+    this._computeDisplay();
+  }
+
+  get page() {
+    return this._page;
+  }
+
+  set page(value) {
+    const old = this._page;
+    if (old === value) {
+      return;
+    }
+    this._page = value;
+    this.requestUpdate('page', old);
+    this._computeDisplay();
+  }
+
+  get itemsPerPage() {
+    return this._itemsPerPage;
+  }
+
+  set itemsPerPage(value) {
+    const old = this._itemsPerPage;
+    if (old === value) {
+      return;
+    }
+    this._itemsPerPage = value;
+    this.requestUpdate('itemsPerPage', old);
+    this._computeDisplay();
   }
 
   /**
@@ -311,18 +284,21 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
    *
    * TODO: This should be a deep data observer to update only the portion of the model that
    * actually has changed.
+   *
+   * @param {Array} json
    */
   _jsonChanged(json) {
     if (!json) {
-      this._setDisplay(undefined);
-      this._setColumns(undefined);
+      this._display = undefined;
+      this._columns = undefined;
       return;
     }
     const names = this._computeColumns(json);
-    this._setColumns(names);
+    this._columns = names;
   }
 
-  _computeDisplay(json, paginate, page, itemsPerPage) {
+  _computeDisplay() {
+    const { json, paginate, page, itemsPerPage } = this;
     if (!json) {
       return;
     }
@@ -331,7 +307,7 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
       return;
     }
     if (paginate && maxInxdex <= itemsPerPage) {
-      this.set('paginate', false);
+      this.paginate = false;
       return;
     }
     const startIndex = paginate ? (page * itemsPerPage) : 0;
@@ -343,14 +319,16 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
     for (let i = startIndex; i <= endIndex; i++) {
       result.push(this.getItemModel(json[i]));
     }
-    this._setDisplay(result);
-    this._setStartItemLabel(startIndex + 1);
-    this._setEndItemLabel(Math.min(endIndex + 1, maxInxdex));
-    this._setMaxItemsLabel(maxInxdex);
+    this._display = result;
+    this._startItemLabel = startIndex + 1;
+    this._endItemLabel = Math.min(endIndex + 1, maxInxdex);
+    this._maxItemsLabel = maxInxdex;
   }
   /**
    * Computes the list of column names for the table.
    * It will contain all properties keys fond in the array.
+   * @param {Array} json
+   * @return {Array<String>}
    */
   _computeColumns(json) {
     if (this.isEnum(json)) {
@@ -369,14 +347,6 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
       }
     }, this);
     return columnNames.length ? columnNames : undefined;
-  }
-  // Sets the `hasColumns` property when columns array change
-  _columnsChanged(columns) {
-    if (columns && columns.length) {
-      this._setHasColumns(true);
-    } else {
-      this._setHasColumns(false);
-    }
   }
   // Checks if passed `item` is a primitive
   _isPrimitive(item, column) {
@@ -437,9 +407,10 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
     e.preventDefault();
     let cell;
     let currentElement = e.target;
-    let targetAnchor = e.target;
-    let templateTarget = currentElement.dataset.target;
-    while (true) {
+    const targetAnchor = e.target;
+    const templateTarget = currentElement.dataset.target;
+    const test = true;
+    while (test) {
       if (currentElement.nodeName === 'TD') {
         cell = currentElement;
         break;
@@ -449,14 +420,15 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
         throw new Error('Couldn\'t find table cell in the event path.');
       }
     }
-    const tpl = cell.querySelector(`dom-if[${templateTarget}]`);
+    const node = cell.querySelector(`json-table-array`);
     const label = cell.querySelector(`.object-label[${templateTarget}]`);
-    tpl.if = !tpl.if;
-    if (tpl.if) {
+    if (node.hasAttribute('hidden')) {
+      node.removeAttribute('hidden');
       e.target.textContent = 'hide ' + templateTarget;
       label.setAttribute('hidden', true);
       targetAnchor.classList.add('active');
     } else {
+      node.setAttribute('hidden', '');
       e.target.textContent = 'show ' + templateTarget;
       label.removeAttribute('hidden');
       targetAnchor.classList.remove('active');
@@ -466,10 +438,11 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
    * When pagination is enabled this will increase page number.
    * This will do nothing if pagination isn't enabled or there's no next page of results to
    * display.
+   * @return {Boolean}
    */
   nextPage() {
-    const maxIndex = this.maxItemsLabel;
-    const endIndex = this.endItemLabel;
+    const maxIndex = this._maxItemsLabel;
+    const endIndex = this._endItemLabel;
     if (maxIndex <= endIndex) {
       return false;
     }
@@ -507,5 +480,9 @@ class JsonTableArray extends JsonTableMixin(PolymerElement) {
     const value = this._getValue(item, column);
     return value && value.length || 0;
   }
+
+  _ippHandler(e) {
+    this.itemsPerPage = e.detail.value;
+  }
 }
-window.customElements.define(JsonTableArray.is, JsonTableArray);
+window.customElements.define('json-table-array', JsonTableArray);
