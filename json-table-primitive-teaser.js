@@ -103,8 +103,15 @@ class JsonTablePrimitiveTeaser extends LitElement {
     }
   }
 
+  firstUpdated() {
+    this._contentChanged();
+  }
+
   _contentChanged() {
     const wrap = this._wrapper;
+    if (!wrap) {
+      return;
+    }
     const oh = wrap.offsetHeight; // current height
     const sh = wrap.scrollHeight; // content height
     this._isOverflow = sh > oh;
