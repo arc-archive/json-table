@@ -96,7 +96,7 @@ class JsonTable extends JsonTableMixin(LitElement) {
   }
 
   render() {
-    const { _renderJson, paginate, page, itemsPerPage } = this;
+    const { _renderJson, paginate, page, itemsPerPage, outlined, compatibility } = this;
     return html`
     <div class="actions-panel">
       <slot name="content-action"></slot>
@@ -106,13 +106,17 @@ class JsonTable extends JsonTableMixin(LitElement) {
         .json="${_renderJson}"
         ?paginate="${paginate}"
         .page="${page}"
-        .itemsPerPage="${itemsPerPage}"></json-table-array>
+        .itemsPerPage="${itemsPerPage}"
+        ?outlined="${outlined}"
+        ?compatibility="${compatibility}"></json-table-array>
     </div>` : undefined}
     ${this.isObject(_renderJson) ? html`<json-table-object
       .json="${_renderJson}"
       ?paginate="${paginate}"
       .page="${page}"
-      .itemsPerPage="${itemsPerPage}"></json-table-object>` : undefined}`;
+      .itemsPerPage="${itemsPerPage}"
+      ?outlined="${outlined}"
+      ?compatibility="${compatibility}"></json-table-object>` : undefined}`;
   }
 
   static get properties() {

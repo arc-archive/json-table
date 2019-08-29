@@ -13,11 +13,12 @@ the License.
 */
 import { LitElement, html, css } from 'lit-element';
 import { JsonTableMixin } from './json-table-mixin.js';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
+import '@anypoint-web-components/anypoint-dropdown-menu/anypoint-dropdown-menu.js';
+import '@anypoint-web-components/anypoint-listbox/anypoint-listbox.js';
+import '@anypoint-web-components/anypoint-item/anypoint-item.js';
+import '@anypoint-web-components/anypoint-button/anypoint-icon-button.js';
+import '@polymer/iron-icon/iron-icon.js';
 import '@advanced-rest-client/arc-icons/arc-icons.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/paper-item/paper-item.js';
-import '@polymer/paper-listbox/paper-listbox.js';
 import './json-table-object.js';
 import './json-table-primitive-teaser.js';
 /**
@@ -43,9 +44,8 @@ class JsonTableArray extends JsonTableMixin(LitElement) {
      line-height: var(--arc-font-body1-line-height);
    }
 
-   paper-dropdown-menu {
+   anypoint-dropdown-menu {
      width: 70px;
-     text-align: right;
    }
 
    table {
@@ -123,47 +123,71 @@ class JsonTableArray extends JsonTableMixin(LitElement) {
   }
 
   _paginationTemplate() {
-    const { paginate, itemsPerPage, _startItemLabel, _endItemLabel, _maxItemsLabel, page } = this;
+    const { paginate, itemsPerPage, _startItemLabel, _endItemLabel, _maxItemsLabel, page, outlined, compatibility } = this;
     if (!paginate) {
       return;
     }
     return html`<div class="table-actions">
       <div class="page-items-count-selector">
         <span class="page-items-count-label">Items per page</span>
-        <paper-dropdown-menu no-label-float>
-          <paper-listbox slot="dropdown-content" attr-for-selected="data-value" .selected="${itemsPerPage}" @selected-changed="${this._ippHandler}">
-            <paper-item data-value="10">10</paper-item>
-            <paper-item data-value="15">15</paper-item>
-            <paper-item data-value="20">20</paper-item>
-            <paper-item data-value="25">25</paper-item>
-            <paper-item data-value="50">50</paper-item>
-            <paper-item data-value="100">100</paper-item>
-          </paper-listbox>
-        </paper-dropdown-menu>
+        <anypoint-dropdown-menu
+          nolabelfloat
+          ?outlined="${outlined}"
+          ?legacy="${compatibility}">
+          <label slot="label">Select</label>
+          <anypoint-listbox
+            ?legacy="${compatibility}"
+            slot="dropdown-content"
+            attrforselected="data-value"
+            .selected="${itemsPerPage}"
+            @selected-changed="${this._ippHandler}">
+            <anypoint-item data-value="10">10</anypoint-item>
+            <anypoint-item data-value="15">15</anypoint-item>
+            <anypoint-item data-value="20">20</anypoint-item>
+            <anypoint-item data-value="25">25</anypoint-item>
+            <anypoint-item data-value="50">50</anypoint-item>
+            <anypoint-item data-value="100">100</anypoint-item>
+          </anypoint-listbox>
+        </anypoint-dropdown-menu>
       </div>
       <div class="page-count">
         ${_startItemLabel}-${_endItemLabel} of ${_maxItemsLabel}
       </div>
       <div class="page-paginators">
-        <paper-icon-button icon="arc:chevron-left" @click="${this.previousPage}" ?disabled="${this._isDisabedPrevious(page)}"></paper-icon-button>
-        <paper-icon-button icon="arc:chevron-right" @click="${this.nextPage}" ?disabled="${this._isDisabedNext(_maxItemsLabel, _endItemLabel)}"></paper-icon-button>
+        <anypoint-icon-button
+          aria-label="Activate to render previous page"
+          @click="${this.previousPage}"
+          ?disabled="${this._isDisabedPrevious(page)}"
+          ?legacy="${compatibility}">
+          <iron-icon icon="arc:chevron-left"></iron-icon>
+        </anypoint-icon-button>
+        <anypoint-icon-button
+          aria-label="Activate to render next page"
+          @click="${this.nextPage}"
+          ?disabled="${this._isDisabedNext(_maxItemsLabel, _endItemLabel)}"
+          ?legacy="${compatibility}">
+          <iron-icon icon="arc:chevron-right"></iron-icon>
+        </anypoint-icon-button>
       </div>
     </div>`;
   }
 
   _dispayTemplate(display, hasColumns, columns) {
-    const { paginate, page, itemsPerPage } = this;
+    const { paginate, page, itemsPerPage, outlined, compatibility } = this;
     return display.map((displayItem) => html`<tr>
       ${hasColumns ? columns.map((column) => html`<td>
         ${this._isPrimitive(displayItem, column) ?
-          html`<json-table-primitive-teaser class="primitive-value">${this._getValue(displayItem, column)}</json-table-primitive-teaser>` :
+          html`<json-table-primitive-teaser
+            class="primitive-value">${this._getValue(displayItem, column)}</json-table-primitive-teaser>` :
           undefined}
         ${this._isObject(displayItem, column) ?
           html`<json-table-object
             .json="${this._getValue(displayItem, column)}"
             ?paginate="${paginate}"
             .page="${page}"
-            .itemsPerPage="${itemsPerPage}"></json-table-object>` :
+            .itemsPerPage="${itemsPerPage}"
+            ?outlined="${outlined}"
+            ?compatibility="${compatibility}"></json-table-object>` :
           undefined}
         ${this._isEnum(displayItem, column) ?
           this._getValue(displayItem, column).map((item) => html`<span class="enum-value">${item}</span>`) :
@@ -177,7 +201,9 @@ class JsonTableArray extends JsonTableMixin(LitElement) {
             .json="${this._getValue(displayItem, column)}"
             ?paginate="${paginate}"
             .page="${page}"
-            .itemsPerPage="${itemsPerPage}"></json-table-array>` : undefined}
+            .itemsPerPage="${itemsPerPage}"
+            ?outlined="${outlined}"
+            ?compatibility="${compatibility}"></json-table-array>` : undefined}
       </td>`) : undefined}
     </tr>`);
   }

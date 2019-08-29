@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
   <title>json-table demo</title>
 
-  <script src="../node_modules/web-animations-js/web-animations-next.min.js"></script>
+  <script src="../node_modules/web-animations-js/web-animations.min.js"></script>
 
   <style>
     html,
@@ -33,6 +33,7 @@
       --arc-font-body1-font-size: 14px;
       --arc-font-body1-font-weight: 400;
       --arc-font-body1-line-height: 20px;
+      --anypoiont-dropdown-shaddow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
     }
 
     body.styled.dark {
@@ -55,31 +56,34 @@
 
 <body class="styled">
   <div class="vertical-section-container centered">
-    <paper-dropdown-menu label="Select JSON example">
-      <paper-listbox id="listbox" slot="dropdown-content">
-        <paper-item data-example="./drive.json">Google Drive files list</paper-item>
-        <paper-item data-example="./example.json">Complex structure example</paper-item>
-        <paper-item data-example="./social-data-list.json">Social data list</paper-item>
-        <paper-item data-example="./enrichment-candidates.json">enrichment candidates</paper-item>
-        <paper-item data-example="./git-candidate-list.json">git candidate list</paper-item>
-        <paper-item data-example="./linkedin-people.json">linkedin people</paper-item>
-        <paper-item data-example="./trainedmodels.json">trainedmodels</paper-item>
-        <paper-item data-example="./trainedmodels-model.json">trainedmodels &gt; model</paper-item>
-        <paper-item data-example="./trainedmodels-model-analyze.json">trainedmodels &gt; model &gt; analyze</paper-item>
-        <paper-item data-example="">Add JSON</paper-item>
-      </paper-listbox>
-    </paper-dropdown-menu>
+    <anypoint-dropdown-menu>
+      <label slot="label">Select JSON example</label>
+      <anypoint-listbox id="listbox" slot="dropdown-content">
+        <anypoint-item data-example="./drive.json">Google Drive files list</anypoint-item>
+        <anypoint-item data-example="./example.json">Complex structure example</anypoint-item>
+        <anypoint-item data-example="./social-data-list.json">Social data list</anypoint-item>
+        <anypoint-item data-example="./enrichment-candidates.json">enrichment candidates</anypoint-item>
+        <anypoint-item data-example="./git-candidate-list.json">git candidate list</anypoint-item>
+        <anypoint-item data-example="./linkedin-people.json">linkedin people</anypoint-item>
+        <anypoint-item data-example="./trainedmodels.json">trainedmodels</anypoint-item>
+        <anypoint-item data-example="./trainedmodels-model.json">trainedmodels &gt; model</anypoint-item>
+        <anypoint-item data-example="./trainedmodels-model-analyze.json">trainedmodels &gt; model &gt; analyze</anypoint-item>
+        <anypoint-item data-example="">Add JSON</anypoint-item>
+      </anypoint-listbox>
+    </anypoint-dropdown-menu>
 
     <json-table paginate page="0" itemsperpage="20"></json-table>
 
     <paper-dialog id="inputDialog">
       <h2>Paste JSON value</h2>
       <div>
-        <paper-textarea max-rows="5" id="txt"></paper-textarea>
+        <anypoint-textarea max-rows="5" id="txt">
+          <label slot="label">JSON content</label>
+        </anypoint-textarea>
       </div>
       <div class="buttons">
-        <paper-button dialog-dismiss>Cancel</paper-button>
-        <paper-button dialog-confirm autofocus>Accept</paper-button>
+        <anypoint-button dialog-dismiss>Cancel</anypoint-button>
+        <anypoint-button dialog-confirm autofocus>Accept</anypoint-button>
       </div>
     </paper-dialog>
 

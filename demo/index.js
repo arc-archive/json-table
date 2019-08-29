@@ -1,12 +1,13 @@
 import '@advanced-rest-client/arc-demo-helper/arc-demo-helper.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@polymer/paper-input/paper-textarea.js';
+import '@anypoint-web-components/anypoint-dropdown-menu/anypoint-dropdown-menu.js';
+import '@anypoint-web-components/anypoint-listbox/anypoint-listbox.js';
+import '@anypoint-web-components/anypoint-item/anypoint-item.js';
+import '@anypoint-web-components/anypoint-button/anypoint-button.js';
+import '@anypoint-web-components/anypoint-input/anypoint-textarea.js';
+import '@anypoint-web-components/anypoint-button/anypoint-icon-button.js';
+import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-toast/paper-toast.js';
-import '@polymer/paper-item/paper-item.js';
 import '@polymer/paper-dialog/paper-dialog.js';
-import '@polymer/paper-listbox/paper-listbox.js';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '@polymer/paper-button/paper-button.js';
 import '../json-table.js';
 
 let customJson;

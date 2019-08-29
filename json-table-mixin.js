@@ -28,7 +28,15 @@ export const JsonTableMixin = (base) => class extends base {
       itemsPerPage: { type: Number },
       _oldItemsPerPage: { type: Number, attribute: 'items-per-page' },
       // If true then the pagination will be enabled for the arrays.
-      paginate: { type: Boolean }
+      paginate: { type: Boolean },
+      /**
+       * Enables outlined theme for inputs.
+       */
+      outlined: { type: Boolean, reflect: true },
+      /**
+       * Enables compatibility with Anypoint theme.
+       */
+      compatibility: { type: Boolean, reflect: true }
     };
   }
 

@@ -122,7 +122,7 @@ class JsonTableObject extends JsonTableMixin(LitElement) {
   }
 
   render() {
-    const { _display, paginate, page, itemsPerPage } = this;
+    const { _display, paginate, page, itemsPerPage, outlined, compatibility } = this;
 
     if (!(_display && _display.length)) {
       return;
@@ -139,7 +139,9 @@ class JsonTableObject extends JsonTableMixin(LitElement) {
           .json="${item.value}"
           ?paginate="${paginate}"
           .page="${page}"
-          .itemsPerPage="${itemsPerPage}"></json-table-object>` : undefined}
+          .itemsPerPage="${itemsPerPage}"
+          ?outlined="${outlined}"
+          ?compatibility="${compatibility}"></json-table-object>` : undefined}
         ${item.isEnum ?
           item.value.map((item) => html`<span class="enum-value">${item}</span>`) :
           undefined}
@@ -148,7 +150,9 @@ class JsonTableObject extends JsonTableMixin(LitElement) {
             .json="${item.value}"
             ?paginate="${paginate}"
             .page="${page}"
-            .itemsPerPage="${itemsPerPage}"></json-table-array>
+            .itemsPerPage="${itemsPerPage}"
+            ?outlined="${outlined}"
+            ?compatibility="${compatibility}"></json-table-array>
         </div>` : undefined}
 
         ${item.isPrimitive ? html`<json-table-primitive-teaser class="primitive-value">${item.value}</json-table-primitive-teaser>` : undefined}
