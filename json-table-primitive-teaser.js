@@ -14,7 +14,7 @@ the License.
 import { LitElement, html, css } from 'lit-element';
 
 class JsonTablePrimitiveTeaser extends LitElement {
-  static get styles() {
+  get styles() {
     return css`:host {
       display: block;
       margin: 4px 0;
@@ -44,7 +44,7 @@ class JsonTablePrimitiveTeaser extends LitElement {
 
   render() {
     const { _isOverflow, opened } = this;
-    return html`
+    return html`<style>${this.styles}</style>
     <div class="primitive-wrapper">
       <slot></slot>
     </div>

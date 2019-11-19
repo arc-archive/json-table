@@ -36,7 +36,7 @@ import './json-table-array.js';
  * @memberof UiElements
  */
 class JsonTableObject extends JsonTableMixin(LitElement) {
-  static get styles() {
+  get styles() {
     return css`:host {
       display: block;
       --json-table-property-name-width: auto;
@@ -127,7 +127,7 @@ class JsonTableObject extends JsonTableMixin(LitElement) {
     if (!(_display && _display.length)) {
       return;
     }
-    return html`
+    return html`<style>${this.styles}</style>
     ${_display.map((item) => html`<div class="item ${this._computeItemClass(item)}">
       <div class="property-name">
         ${item.key}
