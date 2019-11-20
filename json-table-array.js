@@ -35,7 +35,7 @@ import './json-table-primitive-teaser.js';
  * @memberof UiElements
  */
 class JsonTableArray extends JsonTableMixin(LitElement) {
-  static get styles() {
+  get styles() {
     return css`:host {
      display: block;
      font-size: var(--arc-font-body1-font-size);
@@ -219,7 +219,7 @@ class JsonTableArray extends JsonTableMixin(LitElement) {
     const hasColumns = !!(_columns && _columns.length);
     const hasDisplay = !!(_display && _display.length);
 
-    return html`
+    return html`<style>${this.styles}</style>
     ${this._paginationTemplate()}
     <table>
       ${hasColumns ? html`<thead>

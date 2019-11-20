@@ -71,7 +71,7 @@ import './json-table-array.js';
  * @memberof UiElements
  */
 class JsonTable extends JsonTableMixin(LitElement) {
-  static get styles() {
+  get styles() {
     return css`:host {
       display: block;
     }
@@ -97,7 +97,7 @@ class JsonTable extends JsonTableMixin(LitElement) {
 
   render() {
     const { _renderJson, paginate, page, itemsPerPage, outlined, compatibility } = this;
-    return html`
+    return html`<style>${this.styles}</style>
     <div class="actions-panel">
       <slot name="content-action"></slot>
     </div>
