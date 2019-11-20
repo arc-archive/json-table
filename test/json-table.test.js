@@ -1,5 +1,5 @@
 import { fixture, assert, aTimeout } from '@open-wc/testing';
-import sinon from 'sinon/pkg/sinon-esm.js';
+import * as sinon from 'sinon/pkg/sinon-esm.js';
 import '../json-table.js';
 
 describe('<json-table>', function() {
@@ -12,7 +12,7 @@ describe('<json-table>', function() {
     let jsonData;
 
     before(async function() {
-      const response = await fetch('/base/demo/drive.json');
+      const response = await fetch('/base/demo/git-candidate-list.json');
       jsonData = await response.json();
     });
 
