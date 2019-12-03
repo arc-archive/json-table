@@ -131,8 +131,8 @@ class JsonTableObject extends JsonTableMixin(LitElement) {
     ${_display.map((item) => html`<div class="item ${this._computeItemClass(item)}">
       <div class="property-name">
         ${item.key}
-        ${item.isObject ? html`<span class="object-label">(Object)</span>` : undefined}
-        ${this._isEnumOrArray(item) ? html`<span class="array-label">(Array ${this._computeArraySize(item)})</span>` : undefined}
+        ${item.isObject ? html`<span class="object-label">(Object)</span>` : ''}
+        ${this._isEnumOrArray(item) ? html`<span class="array-label">(Array ${this._computeArraySize(item)})</span>` : ''}
       </div>
       <div class="property-value">
         ${item.isObject ? html`<json-table-object
@@ -141,10 +141,10 @@ class JsonTableObject extends JsonTableMixin(LitElement) {
           .page="${page}"
           .itemsPerPage="${itemsPerPage}"
           ?outlined="${outlined}"
-          ?compatibility="${compatibility}"></json-table-object>` : undefined}
+          ?compatibility="${compatibility}"></json-table-object>` : ''}
         ${item.isEnum ?
           item.value.map((item) => html`<span class="enum-value">${item}</span>`) :
-          undefined}
+          ''}
         ${item.isArray ? html`<div class="array-wrapper">
           <json-table-array
             .json="${item.value}"
@@ -153,9 +153,9 @@ class JsonTableObject extends JsonTableMixin(LitElement) {
             .itemsPerPage="${itemsPerPage}"
             ?outlined="${outlined}"
             ?compatibility="${compatibility}"></json-table-array>
-        </div>` : undefined}
+        </div>` : ''}
 
-        ${item.isPrimitive ? html`<json-table-primitive-teaser class="primitive-value">${item.value}</json-table-primitive-teaser>` : undefined}
+        ${item.isPrimitive ? html`<json-table-primitive-teaser class="primitive-value">${item.value}</json-table-primitive-teaser>` : ''}
       </div>
     </div>`)}`;
   }

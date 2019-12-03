@@ -185,7 +185,7 @@ class JsonTableArray extends JsonTableMixin(LitElement) {
         ${this._isPrimitive(displayItem, column) ?
           html`<json-table-primitive-teaser
             class="primitive-value">${this._getValue(displayItem, column)}</json-table-primitive-teaser>` :
-          undefined}
+          ''}
         ${this._isObject(displayItem, column) ?
           html`<json-table-object
             .json="${this._getValue(displayItem, column)}"
@@ -194,10 +194,10 @@ class JsonTableArray extends JsonTableMixin(LitElement) {
             .itemsPerPage="${itemsPerPage}"
             ?outlined="${outlined}"
             ?compatibility="${compatibility}"></json-table-object>` :
-          undefined}
+          ''}
         ${this._isEnum(displayItem, column) ?
           this._getValue(displayItem, column).map((item) => html`<span class="enum-value">${item}</span>`) :
-          undefined}
+          ''}
 
         ${this._isArray(displayItem, column) ? html`<span class="object-info">
           <span class="object-label" array="">Array (${this._computeValueSize(displayItem, column)})</span>
@@ -209,8 +209,8 @@ class JsonTableArray extends JsonTableMixin(LitElement) {
             .page="${page}"
             .itemsPerPage="${itemsPerPage}"
             ?outlined="${outlined}"
-            ?compatibility="${compatibility}"></json-table-array>` : undefined}
-      </td>`) : undefined}
+            ?compatibility="${compatibility}"></json-table-array>` : ''}
+      </td>`) : ''}
     </tr>`);
   }
 
@@ -226,9 +226,9 @@ class JsonTableArray extends JsonTableMixin(LitElement) {
         <tr>
         ${_columns.map((item) => html`<th>${item}</th>`)}
         </tr>
-      </thead>` : undefined}
+      </thead>` : ''}
       <tbody>
-        ${hasDisplay ? this._dispayTemplate(_display, hasColumns, _columns) : undefined}
+        ${hasDisplay ? this._dispayTemplate(_display, hasColumns, _columns) : ''}
       </tbody>
     </table>
     ${this._paginationTemplate()}`;

@@ -109,14 +109,14 @@ class JsonTable extends JsonTableMixin(LitElement) {
         .itemsPerPage="${itemsPerPage}"
         ?outlined="${outlined}"
         ?compatibility="${compatibility}"></json-table-array>
-    </div>` : undefined}
+    </div>` : ''}
     ${this.isObject(_renderJson) ? html`<json-table-object
       .json="${_renderJson}"
       ?paginate="${paginate}"
       .page="${page}"
       .itemsPerPage="${itemsPerPage}"
       ?outlined="${outlined}"
-      ?compatibility="${compatibility}"></json-table-object>` : undefined}`;
+      ?compatibility="${compatibility}"></json-table-object>` : ''}`;
   }
 
   static get properties() {
