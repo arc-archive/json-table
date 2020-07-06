@@ -33,22 +33,26 @@ async function getJson(url) {
 
 }
 
-document.getElementById('listbox').addEventListener('iron-select', (e) => {
+document.getElementById('listbox').addEventListener('select', (e) => {
+  // @ts-ignore
   const file = e.detail.item.dataset.example;
   if (file) {
     getJson(file);
   } else {
+    // @ts-ignore
     document.getElementById('inputDialog').opened = true;
   }
 });
 
 document.getElementById('inputDialog').addEventListener('iron-overlay-closed', (e) => {
+  // @ts-ignore
   if (e.detail.confirmed) {
     document.querySelector('json-table').json = customJson;
   }
-  document.querySelector('paper-listbox').selected = -1;
+  document.querySelector('anypoint-listbox').selected = -1;
 });
 
 document.getElementById('txt').addEventListener('input', (e) => {
+  // @ts-ignore
   customJson = e.target.value;
 });

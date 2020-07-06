@@ -1,9 +1,8 @@
 [![Published on NPM](https://img.shields.io/npm/v/@advanced-rest-client/json-table.svg)](https://www.npmjs.com/package/@advanced-rest-client/json-table)
 
-[![Build Status](https://travis-ci.org/advanced-rest-client/json-table.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/json-table)
+[![Build Status](https://travis-ci.com/advanced-rest-client/json-table.svg)](https://travis-ci.com/advanced-rest-client/json-table)
 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/json-table)
-
 
 # &lt;json-table&gt;
 
@@ -40,10 +39,6 @@ Buttons must have `slot="content-action"` attributte set to be included to this 
  <paper-icon-button slot="content-action" title="Copy content to clipboard" icon="arc:content-copy"></paper-icon-button>
 </json-table>
 ```
-
-## API components
-
-This components is a part of [API components ecosystem](https://elements.advancedrestclient.com/)
 
 ## Usage
 
@@ -99,7 +94,7 @@ class SampleElement extends PolymerElement {
 customElements.define('sample-element', SampleElement);
 ```
 
-### Development
+## Development
 
 ```sh
 git clone https://github.com/advanced-rest-client/json-table

@@ -11,6 +11,7 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import { JsonTableArrayElement } from './src/JsonTableArrayElement.js';
-
-window.customElements.define('json-table-array', JsonTableArrayElement);
+export { JsonTableArrayElement } from './src/JsonTableArrayElement';
+export { JsonTableObjectElement } from './src/JsonTableObjectElement';
+export { JsonTablePrimitiveTeaserElement } from './src/JsonTablePrimitiveTeaserElement';
+export { JsonTableElement } from './src/JsonTableElement';
