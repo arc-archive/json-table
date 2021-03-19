@@ -9,7 +9,7 @@ interface JsonTableMixinConstructor {
 
 export declare interface ModelItem {
   /**
-   * The roperty value - without applying data model. Thois will be done in child elements
+   * The property value - without applying data model. This is be done in child elements
    */
   value: any;
   /**
@@ -43,24 +43,29 @@ export declare interface PropertyModelItem extends ModelItem {
 declare interface JsonTableMixin {
   /**
    * In pagination, page index
+   * @attribute
    */
   page: number;
   /**
    * Number of items in pagination per page.
    * Allowed values are 10, 15, 20, 25, 50 and 100.
+   * @attribute
    */
   itemsPerPage: number;
   _oldItemsPerPage: number;
   /**
-   * If true then the pagination will be enabled for the arrays.
+   * When set then the pagination will be enabled for the arrays.
+   * @attribute
    */
   paginate: boolean;
   /**
    * Enables outlined theme for inputs.
+   * @attribute
    */
   outlined: boolean;
   /**
    * Enables compatibility with Anypoint theme.
+   * @attribute
    */
   compatibility: boolean;
 
@@ -85,7 +90,7 @@ declare interface JsonTableMixin {
   isPrimitive(obj: any): boolean;
 
   /**
-   * Creates a data model for single proerty.
+   * Creates a data model for a single property.
    *
    * @param key A property name in the JSON structure
    * @param value Value associated with the property.

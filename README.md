@@ -1,10 +1,8 @@
+# json-table
+
 [![Published on NPM](https://img.shields.io/npm/v/@advanced-rest-client/json-table.svg)](https://www.npmjs.com/package/@advanced-rest-client/json-table)
 
-[![Build Status](https://travis-ci.com/advanced-rest-client/json-table.svg)](https://travis-ci.com/advanced-rest-client/json-table)
-
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/json-table)
-
-# &lt;json-table&gt;
+[![Tests and publishing](https://github.com/advanced-rest-client/json-table/actions/workflows/deployment.yml/badge.svg)](https://github.com/advanced-rest-client/json-table/actions/workflows/deployment.yml)
 
 A table view from the JSON structure.
 
@@ -14,16 +12,15 @@ If JSON is an array it renders a table view. For objects it renders a list view.
 Complex object are represented as an embedded view of a list or table inside the parent object
 representation. That may create very complex structure and lead to performance issues when computing
 data model and building the DOM. Therefore the element will only build the first level of the view.
-If the object / array contains other objects / arrays it will show only a button to display embeded
+If the object / array contains other objects / arrays it will show only a button to display embedded
 objects. That should prohibit from freezing the UI while rendering the view.
 
 Another optimization is pagination (disabled by default). After setting the `paginate` property
 array tables will contain a pagination with `itemsPerPage` items rendered at a time. The user can
 change number of items at any time.
 
-### Example
 ```html
-<json-table json="[...]" paginate itemsperpage="15"></json-table>
+<json-table json="[...]" paginate itemsPerPage="15"></json-table>
 ```
 
 ## Content actions
@@ -32,7 +29,7 @@ The element can render an actions pane above the table / list view. Action pane 
 display content actions that is relevant in context of the content displayed
 below the buttons. It should be icon buttons list or just buttons added to this view.
 
-Buttons must have `slot="content-action"` attributte set to be included to this view.
+Buttons must have `slot="content-action"` attribute set to be included to this view.
 
 ```html
 <json-table json='{"json": "test"}'>
@@ -43,7 +40,8 @@ Buttons must have `slot="content-action"` attributte set to be included to this 
 ## Usage
 
 ### Installation
-```
+
+```sh
 npm install --save @advanced-rest-client/json-table
 ```
 
