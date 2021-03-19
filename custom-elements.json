@@ -1,0 +1,258 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "json-table-array",
+      "path": "./json-table-array.js",
+      "description": "An element that displays array structure.\n\n### Example\n\n```html\n<json-table-array json=\"[...]\"></json-table-array>\n```",
+      "attributes": [
+        {
+          "name": "page",
+          "description": "In pagination, page index",
+          "type": "number"
+        },
+        {
+          "name": "itemsPerPage",
+          "description": "Number of items in pagination per page.\nAllowed values are 10, 15, 20, 25, 50 and 100.",
+          "type": "number"
+        },
+        {
+          "name": "paginate",
+          "description": "When set then the pagination will be enabled for the arrays.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "description": "Enables outlined theme for inputs.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "description": "Enables compatibility with Anypoint theme.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult"
+        },
+        {
+          "name": "json",
+          "type": "any[] | undefined"
+        },
+        {
+          "name": "columns",
+          "type": "string[] | undefined"
+        },
+        {
+          "name": "page",
+          "attribute": "page",
+          "description": "In pagination, page index",
+          "type": "number"
+        },
+        {
+          "name": "itemsPerPage",
+          "attribute": "itemsPerPage",
+          "description": "Number of items in pagination per page.\nAllowed values are 10, 15, 20, 25, 50 and 100.",
+          "type": "number"
+        },
+        {
+          "name": "paginate",
+          "attribute": "paginate",
+          "description": "When set then the pagination will be enabled for the arrays.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "attribute": "outlined",
+          "description": "Enables outlined theme for inputs.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "attribute": "compatibility",
+          "description": "Enables compatibility with Anypoint theme.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "json-table-object",
+      "path": "./json-table-object.js",
+      "description": "An element that displays object structure.\n\n### Example\n\n```html\n<json-table-object json=\"{...}\"></json-table-object>\n```",
+      "attributes": [
+        {
+          "name": "page",
+          "description": "In pagination, page index",
+          "type": "number"
+        },
+        {
+          "name": "itemsPerPage",
+          "description": "Number of items in pagination per page.\nAllowed values are 10, 15, 20, 25, 50 and 100.",
+          "type": "number"
+        },
+        {
+          "name": "paginate",
+          "description": "When set then the pagination will be enabled for the arrays.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "description": "Enables outlined theme for inputs.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "description": "Enables compatibility with Anypoint theme.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "page",
+          "attribute": "page",
+          "description": "In pagination, page index",
+          "type": "number"
+        },
+        {
+          "name": "itemsPerPage",
+          "attribute": "itemsPerPage",
+          "description": "Number of items in pagination per page.\nAllowed values are 10, 15, 20, 25, 50 and 100.",
+          "type": "number"
+        },
+        {
+          "name": "paginate",
+          "attribute": "paginate",
+          "description": "When set then the pagination will be enabled for the arrays.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "attribute": "outlined",
+          "description": "Enables outlined theme for inputs.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "attribute": "compatibility",
+          "description": "Enables compatibility with Anypoint theme.",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "json-table-primitive-teaser",
+      "path": "./json-table-primitive-teaser.js",
+      "attributes": [
+        {
+          "name": "opened",
+          "description": "When set then the whole value will be visible.",
+          "type": "boolean"
+        },
+        {
+          "name": "maxHeight",
+          "description": "Container's max height when closed.",
+          "type": "string"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult"
+        },
+        {
+          "name": "opened",
+          "attribute": "opened",
+          "description": "When set then the whole value will be visible.",
+          "type": "boolean"
+        },
+        {
+          "name": "maxHeight",
+          "attribute": "maxHeight",
+          "description": "Container's max height when closed.",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "json-table",
+      "path": "./json-table.js",
+      "description": "A table view from the JSON structure.\n\nThe element renders a table and / or list view from a JSON object.\nIf JSON is an array it renders a table view. For objects it renders a list view.\n\nComplex object are represented as an embedded view of a list or table inside the parent object\nrepresentation. That may create very complex structure and lead to performance issues when computing\ndata model and building the DOM. Therefore the element will only build the first level of the view.\nIf the object / array contains other objects / arrays it will show only a button to display embedded\nobjects. That should prohibit from freezing the UI while rendering the view.\n\nAnother optimization is pagination (disabled by default). After setting the `paginate` property\narray tables will contain a pagination with `itemsPerPage` items rendered at a time. The user can\nchange number of items at any time.\n\n### Example\n```html\n<json-table json=\"[...]\" paginate items-per-page=\"15\"></json-table>\n```\n\n## Content actions\n\nThe element can render an actions pane above the table / list view. Action pane is to\ndisplay content actions that is relevant in context of the content displayed\nbelow the buttons. It should be icon buttons list or just buttons added to this view.\n\nButtons must have `slot=\"content-action\"` attribute set to be included to this view.\n\n```html\n<json-table json='{\"json\": \"test\"}'>\n  <paper-icon-button\n    slot=\"content-action\"\n    title=\"Copy content to clipboard\"\n    icon=\"arc:content-copy\"></paper-icon-button>\n</json-table>\n```\n\n### Styling\n\n`<json-table>` provides the following custom properties and mixins for styling:\n\nCustom property | Description | Default\n----------------|-------------|----------\n`--json-table` | Mixin applied to the element | `{}`\n`--json-table-main-array-wrapper` | Mixin applied to the top level array's table view. This element has `overflow` property set.  | `{}`\n`--json-table-item-border-bottom-color` | Color of the bottom border in the array able items or in the object list row | `rgba(0, 0, 0, 0.12)`\n`--json-table-list-property-name-width` | Width of the property name for the list view for the object display | `120px`\n`--json-table-array-header-color` | Color of the array table header labels | ``\n`--json-table-array-body-color` | Color of the array table body values | ``",
+      "attributes": [
+        {
+          "name": "page",
+          "description": "In pagination, page index",
+          "type": "number"
+        },
+        {
+          "name": "itemsPerPage",
+          "description": "Number of items in pagination per page.\nAllowed values are 10, 15, 20, 25, 50 and 100.",
+          "type": "number"
+        },
+        {
+          "name": "paginate",
+          "description": "When set then the pagination will be enabled for the arrays.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "description": "Enables outlined theme for inputs.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "description": "Enables compatibility with Anypoint theme.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult"
+        },
+        {
+          "name": "json",
+          "description": "JSON data to display.\nIf provided data is type of string then it will use the `JSON.stringify` function to\ncreate a JavaScript object from string."
+        },
+        {
+          "name": "page",
+          "attribute": "page",
+          "description": "In pagination, page index",
+          "type": "number"
+        },
+        {
+          "name": "itemsPerPage",
+          "attribute": "itemsPerPage",
+          "description": "Number of items in pagination per page.\nAllowed values are 10, 15, 20, 25, 50 and 100.",
+          "type": "number"
+        },
+        {
+          "name": "paginate",
+          "attribute": "paginate",
+          "description": "When set then the pagination will be enabled for the arrays.",
+          "type": "boolean"
+        },
+        {
+          "name": "outlined",
+          "attribute": "outlined",
+          "description": "Enables outlined theme for inputs.",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "attribute": "compatibility",
+          "description": "Enables compatibility with Anypoint theme.",
+          "type": "boolean"
+        }
+      ]
+    }
+  ]
+}

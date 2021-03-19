@@ -56,16 +56,21 @@ export class JsonTablePrimitiveTeaserElement extends LitElement {
 
   static get properties() {
     return {
-      // If true then the whole value will be visible.
-      opened: {
-        type: Boolean,
-        reflect: true
-      },
-      // DOM change observer
+      /** 
+       * When set then the whole value will be visible.
+       */
+      opened: { type: Boolean, reflect: true },
+      /** 
+       * DOM change observer
+       */
       _observer: { type: Object },
-      // if true then the content overflows the max height area.
+      /** 
+       * When set then the content overflows the max height area.
+       */
       _isOverflow: { type: Boolean },
-      // Container's max height when closed.
+      /**  
+       * Container's max height when closed.
+       */
       maxHeight: { type: String }
     };
   }

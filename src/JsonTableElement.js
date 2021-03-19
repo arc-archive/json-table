@@ -27,7 +27,7 @@ import '../json-table-array.js';
  * Complex object are represented as an embedded view of a list or table inside the parent object
  * representation. That may create very complex structure and lead to performance issues when computing
  * data model and building the DOM. Therefore the element will only build the first level of the view.
- * If the object / array contains other objects / arrays it will show only a button to display embeded
+ * If the object / array contains other objects / arrays it will show only a button to display embedded
  * objects. That should prohibit from freezing the UI while rendering the view.
  *
  * Another optimization is pagination (disabled by default). After setting the `paginate` property
@@ -45,7 +45,7 @@ import '../json-table-array.js';
  * display content actions that is relevant in context of the content displayed
  * below the buttons. It should be icon buttons list or just buttons added to this view.
  *
- * Buttons must have `slot="content-action"` attributte set to be included to this view.
+ * Buttons must have `slot="content-action"` attribute set to be included to this view.
  *
  * ```html
  * <json-table json='{"json": "test"}'>

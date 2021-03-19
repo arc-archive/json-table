@@ -27,9 +27,21 @@ import { JsonTableMixin, ModelItem } from './JsonTableMixin.js';
  * ```
  */
 export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
-  readonly styles: CSSResult;
+  get styles(): CSSResult;
   json?: any[];
   columns?: string[];
+  /**
+   * @attribute
+   */
+  paginate: boolean;
+  /**
+   * @attribute
+   */
+  page: number;
+  /**
+   * @attribute
+   */
+  itemsPerPage: number;
 
   _display?: ModelItem[];
   _columns?: string[];
@@ -39,7 +51,7 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
 
   render(): TemplateResult;
   _paginationTemplate(): TemplateResult;
-  _dispayTemplate(display: ModelItem[], hasColumns: boolean, columns: string[]): TemplateResult;
+  _displayTemplate(display: ModelItem[], hasColumns: boolean, columns: string[]): TemplateResult;
 
 
   /**
@@ -68,7 +80,7 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
   /**
    * Checks if passed `item` has value that is an object.
    */
-  _isObject(iitem: ModelItem, column: string): boolean;
+  _isObject(item: ModelItem, column: string): boolean;
 
   /**
    * Checks if passed `item` has value that is an enum.
@@ -82,9 +94,6 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
 
   _getValue(item: ModelItem, column: string): any;
 
-  /**
-   * @param {PointerEvent} e
-   */
   _toggleItem(e: PointerEvent): void;
 
   /**
@@ -107,9 +116,9 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
    * @param page Current page index
    * @returns true if there's previous page of the results
    */
-  _isDisabedPrevious(page: number): boolean;
+  _isDisabledPrevious(page: number): boolean;
 
-  _isDisabedNext(maxItemsLabel: number, endItemLabel: number): boolean;
+  _isDisabledNext(maxItemsLabel: number, endItemLabel: number): boolean;
 
   _computeValueSize(item: ModelItem, column: string): number;
 

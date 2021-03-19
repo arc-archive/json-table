@@ -10,13 +10,14 @@ import { JsonTableMixin, PropertyModelItem, ModelItem } from './JsonTableMixin.j
  * <json-table-object json="{...}"></json-table-object>
  * ```
  */
-export declare class JsonTableObjectElement {
-  readonly styles: CSSResult;
+export declare class JsonTableObjectElement extends JsonTableMixin(LitElement) {
+  get styles(): CSSResult;
 
   render(): TemplateResult;
 
   _display?: PropertyModelItem[];
-  json?: object;
+  json?: any;
+  _json?: any;
 
   /**
    * Creates a data model from the JSON object.
@@ -29,7 +30,4 @@ export declare class JsonTableObjectElement {
   _jsonChanged(json: object): void;
 
   _computeItemClass(item: ModelItem): string;
-}
-
-export declare interface JsonTableObjectElement extends JsonTableMixin, LitElement {
 }

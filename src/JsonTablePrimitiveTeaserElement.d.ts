@@ -1,16 +1,26 @@
 import { LitElement, TemplateResult, CSSResult } from 'lit-element';
 
 export class JsonTablePrimitiveTeaserElement extends LitElement {
-  readonly styles: CSSResult;
+  get styles(): CSSResult;
   render(): TemplateResult;
 
-  // If true then the whole value will be visible.
+  /**
+   * When set then the whole value will be visible.
+   * @attribute
+   */
   opened: boolean;
-  // DOM change observer
+  /** 
+   * DOM change observer
+   */
   _observer: MutationObserver;
-  // if true then the content overflows the max height area.
+  /** 
+   * When set then the content overflows the max height area.
+   */
   _isOverflow: boolean;
-  // Container's max height when closed.
+  /**  
+   * Container's max height when closed.
+   * @attribute
+   */
   maxHeight: string;
   readonly _wrapper: HTMLDivElement;
 

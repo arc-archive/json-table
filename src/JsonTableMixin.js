@@ -13,7 +13,9 @@ const mxFunction = (base) => {
   class JsonTableMixinImpl extends base {
     static get properties() {
       return {
-        // In pagination, page index
+        /**
+         * In pagination, page index
+         */
         page: { type: Number },
         /**
          * Number of items in pagination per page.
@@ -21,7 +23,9 @@ const mxFunction = (base) => {
          */
         itemsPerPage: { type: Number },
         _oldItemsPerPage: { type: Number, attribute: 'items-per-page' },
-        // If true then the pagination will be enabled for the arrays.
+        /**  
+         * When set then the pagination will be enabled for the arrays.
+         */
         paginate: { type: Boolean },
         /**
          * Enables outlined theme for inputs.
@@ -81,7 +85,7 @@ const mxFunction = (base) => {
     }
 
     /**
-     * Creates a data model for single proerty.
+     * Creates a data model for a single property.
      *
      * @param {string} key A property name in the JSON structure
      * @param {any} value Value associated with the property.
@@ -97,19 +101,12 @@ const mxFunction = (base) => {
      * Creates a model for a value.
      *
      * @param {any} value Array item or property value to create a model from.
-     * @return {ModelItem} Internal data model for a property value or array item. Model
-     * contains following keys:
-     *
-     * - value - property value - without applying data model. Thois will be done in child elements
-     * - isObject - set if the value is type of Object
-     * - isEnum - set if the value is type of array and contains primitives only
-     * - isArray - set if the value is type of Array and contains complex objects
-     * - isPrimitive - set if the value is type a primitive
+     * @return {ModelItem} Internal data model for a property value or array item.
      */
     getItemModel(value) {
-      const result = {
+      const result = /** @type ModelItem */ ({
         value,
-      };
+      });
       if (this.isObject(value)) {
         result.isObject = true;
       } else if (Array.isArray(value)) {

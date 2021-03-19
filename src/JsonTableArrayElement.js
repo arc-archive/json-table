@@ -167,14 +167,14 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
         <anypoint-icon-button
           aria-label="Activate to render previous page"
           @click="${this.previousPage}"
-          ?disabled="${this._isDisabedPrevious(page)}"
+          ?disabled="${this._isDisabledPrevious(page)}"
           ?compatibility="${compatibility}">
           <span class="icon">${chevronLeft}</span>
         </anypoint-icon-button>
         <anypoint-icon-button
           aria-label="Activate to render next page"
           @click="${this.nextPage}"
-          ?disabled="${this._isDisabedNext(_maxItemsLabel, _endItemLabel)}"
+          ?disabled="${this._isDisabledNext(_maxItemsLabel, _endItemLabel)}"
           ?compatibility="${compatibility}">
           <span class="icon">${chevronRight}</span>
         </anypoint-icon-button>
@@ -188,7 +188,7 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
    * @param {string[]} columns
    * @return {TemplateResult[]} Template for the current object
    */
-  _dispayTemplate(display, hasColumns, columns) {
+  _displayTemplate(display, hasColumns, columns) {
     const { paginate, page, itemsPerPage, outlined, compatibility } = this;
     return display.map((displayItem) => html`<tr>
       ${hasColumns ? columns.map((column) => html`<td>
@@ -210,7 +210,7 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
           ''}
 
         ${this._isArray(displayItem, column) ? html`<span class="object-info">
-          <span class="object-label" array="">Array (${this._computeValueSize(displayItem, column)})</span>
+          <span class="object-label" array>Array (${this._computeValueSize(displayItem, column)})</span>
           <a href="#" class="toggle-view" data-target="array" @click="${this._toggleItem}">show array</a></span>
           <json-table-array
             hidden
@@ -241,7 +241,7 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
         </tr>
       </thead>` : ''}
       <tbody>
-        ${hasDisplay ? this._dispayTemplate(_display, hasColumns, _columns) : ''}
+        ${hasDisplay ? this._displayTemplate(_display, hasColumns, _columns) : ''}
       </tbody>
     </table>
     ${this._paginationTemplate()}`;
@@ -282,10 +282,16 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
     return this._columns;
   }
 
+  /**
+   * @returns {boolean}
+   */
   get paginate() {
     return this._paginate;
   }
 
+  /**
+   * @param {boolean} value
+   */
   set paginate(value) {
     const old = this._paginate;
     if (old === value) {
@@ -296,10 +302,16 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
     this._computeDisplay();
   }
 
+  /**
+   * @returns {number}
+   */
   get page() {
     return this._page;
   }
 
+  /**
+   * @param {number} value
+   */
   set page(value) {
     const old = this._page;
     if (old === value) {
@@ -310,10 +322,16 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
     this._computeDisplay();
   }
 
+  /**
+   * @returns {number}
+   */
   get itemsPerPage() {
     return this._itemsPerPage;
   }
 
+  /**
+   * @param {number} value
+   */
   set itemsPerPage(value) {
     const old = this._itemsPerPage;
     if (old === value) {
@@ -347,27 +365,27 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
     if (!json) {
       return;
     }
-    const maxInxdex = json.length - 1;
-    if (maxInxdex === -1) {
+    const maxIndex = json.length - 1;
+    if (maxIndex === -1) {
       return;
     }
-    if (paginate && maxInxdex <= itemsPerPage) {
+    if (paginate && maxIndex <= itemsPerPage) {
       this.paginate = false;
       return;
     }
     const startIndex = paginate ? (page * itemsPerPage) : 0;
-    if (maxInxdex < startIndex) {
+    if (maxIndex < startIndex) {
       return;
     }
-    const endIndex = paginate ? Math.min(startIndex + itemsPerPage - 1, maxInxdex) : maxInxdex;
+    const endIndex = paginate ? Math.min(startIndex + itemsPerPage - 1, maxIndex) : maxIndex;
     const result = [];
     for (let i = startIndex; i <= endIndex; i++) {
       result.push(this.getItemModel(json[i]));
     }
     this._display = result;
     this._startItemLabel = startIndex + 1;
-    this._endItemLabel = Math.min(endIndex + 1, maxInxdex);
-    this._maxItemsLabel = maxInxdex;
+    this._endItemLabel = Math.min(endIndex + 1, maxIndex);
+    this._maxItemsLabel = maxIndex;
   }
 
   /**
@@ -433,7 +451,7 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
    * Checks if passed `item` has value that is an enum.
    * @param {ModelItem} item
    * @param {string} column Column name
-   * @return {Boolean}
+   * @return {boolean}
    */
   _isEnum(item, column) {
     if (!item || !item.value || typeof column === 'undefined') {
@@ -450,7 +468,7 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
    * Checks if passed `item` has value that is an array.
    * @param {ModelItem} item
    * @param {string} column Column name
-   * @return {Boolean}
+   * @return {boolean}
    */
   _isArray(item, column) {
     if (!item || !item.value || typeof column === 'undefined') {
@@ -547,11 +565,11 @@ export class JsonTableArrayElement extends JsonTableMixin(LitElement) {
    * @param {number} page Current page index
    * @return {boolean} true if there's previous page of the results
    */
-  _isDisabedPrevious(page) {
+  _isDisabledPrevious(page) {
     return page === 0;
   }
 
-  _isDisabedNext(maxItemsLabel, endItemLabel) {
+  _isDisabledNext(maxItemsLabel, endItemLabel) {
     if (maxItemsLabel <= endItemLabel) {
       return true;
     }
