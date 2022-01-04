@@ -1,16 +1,22 @@
 import { fixture, assert, nextFrame } from '@open-wc/testing';
 import '../json-table-array.js';
 
-describe('<json-table-array>', function() {
+/** @typedef {import('../').JsonTableArrayElement} JsonTableArrayElement */
+
+describe('<json-table-array>', () => {
+  /**
+   * 
+   * @returns {Promise<JsonTableArrayElement>}
+   */
   async function basicFixture() {
-    return (await fixture(`<json-table-array paginate></json-table-array>`));
+    return fixture(`<json-table-array paginate></json-table-array>`);
   }
 
-  describe('basic', function() {
+  describe('basic', () => {
     let element;
     let jsonData;
 
-    before(async function() {
+    before(async () => {
       const response = await fetch('/base/demo/example.json');
       jsonData = await response.json();
     });
@@ -21,7 +27,7 @@ describe('<json-table-array>', function() {
       await nextFrame();
     });
 
-    it('columns property should be set', function() {
+    it('columns property should be set', () => {
       assert.isArray(element._columns, 'columns property is an array');
       const columns = ['_id', 'index', 'guid', 'isActive', 'balance', 'picture', 'age',
         'eyeColor', 'name', 'company', 'email', 'phone', 'address', 'about', 'registered',
@@ -29,26 +35,26 @@ describe('<json-table-array>', function() {
       assert.deepEqual(element._columns, columns, 'columns equals list of columns');
     });
 
-    it('display property should be set', function() {
+    it('display property should be set', () => {
       assert.isArray(element._display, 'display is an array');
       // check just the first item for model check
       const item = element._display[0];
       assert.isTrue(item.isObject, 'item.isObject equals true');
     });
 
-    it('startItemLabel should equal 1', function() {
+    it('startItemLabel should equal 1', () => {
       assert.equal(element._startItemLabel, 1);
     });
 
-    it('_endItemLabel is set', function() {
+    it('_endItemLabel is set', () => {
       assert.equal(element._endItemLabel, 20);
     });
 
-    it('maxItemsLabel should size of the JSON - 1', function() {
+    it('maxItemsLabel should size of the JSON - 1', () => {
       assert.equal(element._maxItemsLabel, jsonData.length - 1);
     });
 
-    it('nextPage renders the next page', function() {
+    it('nextPage renders the next page', () => {
       element.nextPage();
       assert.equal(element._startItemLabel, element.itemsPerPage + 1,
         'startItemLabel equals itemsPerPage + 1');

@@ -1,10 +1,10 @@
 import { fixture, assert, nextFrame } from '@open-wc/testing';
-import sinon from 'sinon/pkg/sinon-esm.js';
+import sinon from 'sinon';
 import '../json-table-primitive-teaser.js';
 
-describe('<json-table-primitive-teaser>', function() {
+describe('<json-table-primitive-teaser>', () => {
   async function basicFixture() {
-    return (await fixture(`<json-table-primitive-teaser></json-table-primitive-teaser>`));
+    return fixture(`<json-table-primitive-teaser></json-table-primitive-teaser>`);
   }
 
   describe('getters and setters', () => {

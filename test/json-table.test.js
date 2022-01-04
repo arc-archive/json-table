@@ -1,17 +1,23 @@
 import { fixture, assert, aTimeout } from '@open-wc/testing';
-import * as sinon from 'sinon/pkg/sinon-esm.js';
+import sinon from 'sinon';
 import '../json-table.js';
 
-describe('<json-table>', function() {
+/** @typedef {import('../').JsonTableElement} JsonTableElement */
+
+describe('<json-table>', () => {
+  /**
+   * 
+   * @returns {Promise<JsonTableElement>}
+   */
   async function basicFixture() {
-    return (await fixture(`<json-table paginate></json-table>`));
+    return fixture(`<json-table paginate></json-table>`);
   }
 
   describe('test JSON object', () => {
     let element;
     let jsonData;
 
-    before(async function() {
+    before(async () => {
       const response = await fetch('/base/demo/git-candidate-list.json');
       jsonData = await response.json();
     });
@@ -22,15 +28,15 @@ describe('<json-table>', function() {
       await aTimeout(10);
     });
 
-    it('_renderJson should be set', function() {
+    it('_renderJson should be set', () => {
       assert.isObject(element._renderJson);
     });
 
-    it('parserError should equal false', function() {
+    it('parserError should equal false', () => {
       assert.isFalse(element.parserError);
     });
 
-    it('Should render json-table-object', function() {
+    it('Should render json-table-object', () => {
       const renderer = element.shadowRoot.querySelector('json-table-object');
       assert.ok(renderer);
     });
@@ -40,7 +46,7 @@ describe('<json-table>', function() {
     let element;
     let jsonData;
 
-    before(async function() {
+    before(async () => {
       const response = await fetch('/base/demo/example.json');
       jsonData = await response.json();
     });
@@ -51,15 +57,15 @@ describe('<json-table>', function() {
       await aTimeout(10);
     });
 
-    it('_renderJson should be set', function() {
+    it('_renderJson should be set', () => {
       assert.isArray(element._renderJson);
     });
 
-    it('parserError should equal false', function() {
+    it('parserError should equal false', () => {
       assert.isFalse(element.parserError);
     });
 
-    it('Should render json-table-array', function() {
+    it('Should render json-table-array', () => {
       const renderer = element.shadowRoot.querySelector('json-table-array');
       assert.ok(renderer);
     });
